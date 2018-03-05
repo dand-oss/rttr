@@ -935,7 +935,7 @@ class RTTR_API variant
          */
         uint64_t to_uint64(bool *ok = nullptr) const;
 
-    private:
+    //private:
         /////////////////////////////////////////////////////////////////////////////////
 
 
