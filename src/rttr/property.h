@@ -255,6 +255,12 @@ class RTTR_API property
          */
         bool operator!=(const property& other) const RTTR_NOEXCEPT;
 
+        void* get_address(instance object) const ;
+        //template<class TT>
+        //TT* get_address(instance object) const
+        //    { return static_cast<TT*>(get_address(object)) ; }
+        bool set_address(instance object, void* val) const ;
+
     private:
         //! Constructs a property from a property_wrapper_base.
         property(const detail::property_wrapper_base* wrapper) RTTR_NOEXCEPT;
