@@ -72,6 +72,15 @@ class property_wrapper<member_object_ptr, A(C::*), void, Acc_Level, return_as_co
                 return variant();
         }
 
+        // let external libraries do unsafe things
+        void* get_address(instance& object) const
+        {
+            if (auto ptr = object.try_convert<C>())
+                return &(ptr->*m_acc);
+            else
+                return nullptr;
+        }
+
     private:
         accessor m_acc;
 };
@@ -115,6 +124,15 @@ class property_wrapper<member_object_ptr, A(C::*), void, Acc_Level, return_as_co
                 return variant(ptr->*m_acc);
             else
                 return variant();
+        }
+
+        // let external libraries do unsafe things
+        void* get_address(instance& object) const
+        {
+            if (auto ptr = object.try_convert<C>())
+                return &ptr->*m_acc;
+            else
+                return nullptr;
         }
 
     private:
@@ -171,6 +189,15 @@ class property_wrapper<member_object_ptr, A(C::*), void, Acc_Level, return_as_pt
                 return variant();
         }
 
+        // let external libraries do unsafe things
+        void* get_address(instance& object) const
+        {
+            if (auto ptr = object.try_convert<C>())
+                return &ptr->*m_acc;
+            else
+                return nullptr;
+        }
+
     private:
         accessor m_acc;
 };
@@ -214,6 +241,15 @@ class property_wrapper<member_object_ptr, A(C::*), void, Acc_Level, return_as_pt
                 return variant(const_cast<const A*>(&(ptr->*m_acc)));
             else
                 return variant();
+        }
+
+        // let external libraries do unsafe things
+        void* get_address(instance& object) const
+        {
+            if (auto ptr = object.try_convert<C>())
+                return &ptr->*m_acc;
+            else
+                return nullptr;
         }
 
     private:
@@ -266,6 +302,15 @@ class property_wrapper<member_object_ptr, A(C::*), void, Acc_Level, get_as_ref_w
                 return variant();
         }
 
+        // let external libraries do unsafe things
+        void* get_address(instance& object) const
+        {
+            if (auto ptr = object.try_convert<C>())
+                return &ptr->*m_acc;
+            else
+                return nullptr;
+        }
+
     private:
         accessor m_acc;
 };
@@ -309,6 +354,15 @@ class property_wrapper<member_object_ptr, A(C::*), void, Acc_Level, get_as_ref_w
                 return variant(std::cref((ptr->*m_acc)));
             else
                 return variant();
+        }
+
+        // let external libraries do unsafe things
+        void* get_address(instance& object) const
+        {
+            if (auto ptr = object.try_convert<C>())
+                return &ptr->*m_acc;
+            else
+                return nullptr;
         }
 
     private:
