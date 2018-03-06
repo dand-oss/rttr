@@ -78,6 +78,29 @@ class property_wrapper<member_object_ptr, Declaring_Typ, A(C::*), void, Acc_Leve
             visitor_iterator<Visitor_List>::visit(visitor, make_property_visitor_invoker(obj));
         }
 
+        // let external libraries do unsafe things
+        void* get_address(instance& object) const
+        {
+            if (auto ptr = object.try_convert<C>())
+                return &(ptr->*m_acc);
+            else
+                return nullptr;
+        }
+
+        template<class TT>
+        TT* get_address(instance& object) const
+        { return static_cast<TT*>(get_address()) ; }
+
+        // let external libraries do unsafe things
+        bool set_address(instance& object, void* val) const
+        {
+            if (auto ptr = object.try_convert<C>()) {
+                return property_accessor<A>::set_value((ptr->*m_acc), *reinterpret_cast<A*>(val));
+            }
+            else
+                return false;
+        }
+
     private:
         accessor m_acc;
 };
@@ -127,6 +150,30 @@ class property_wrapper<member_object_ptr, Declaring_Typ, A(C::*), void, Acc_Leve
         {
             auto obj = make_property_info<Declaring_Typ, return_as_copy, accessor>(prop, m_acc);
             visitor_iterator<Visitor_List>::visit(visitor, make_property_visitor_invoker<read_only>(obj));
+        }
+
+        // let external libraries do unsafe things
+        void* get_address(instance& object) const
+        {
+            if (auto ptr = object.try_convert<C>())
+                return &ptr->*m_acc;
+            else
+                return nullptr;
+        }
+
+        template<class TT>
+        TT* get_address(instance& object) const
+        { return static_cast<TT*>(get_address()) ; }
+
+        // let external libraries do unsafe things
+        bool set_address(instance& object, void* val) const
+        {
+            if (auto ptr = object.try_convert<C>()) {
+                return property_accessor<A>::set_value((ptr->*m_acc), *reinterpret_cast<A*>(val));
+                return true;
+            }
+            else
+                return false;
         }
 
     private:
@@ -189,6 +236,30 @@ class property_wrapper<member_object_ptr, Declaring_Typ, A(C::*), void, Acc_Leve
             visitor_iterator<Visitor_List>::visit(visitor, make_property_visitor_invoker(obj));
         }
 
+        // let external libraries do unsafe things
+        void* get_address(instance& object) const
+        {
+            if (auto ptr = object.try_convert<C>())
+                return &ptr->*m_acc;
+            else
+                return nullptr;
+        }
+
+        template<class TT>
+        TT* get_address(instance& object) const
+        { return static_cast<TT*>(get_address()) ; }
+
+        // let external libraries do unsafe things
+        bool set_address(instance& object, void* val) const
+        {
+            if (auto ptr = object.try_convert<C>()) {
+                return property_accessor<A>::set_value((ptr->*m_acc), *reinterpret_cast<A*>(val));
+                return true;
+            }
+            else
+                return false;
+        }
+
     private:
         accessor m_acc;
 };
@@ -238,6 +309,30 @@ class property_wrapper<member_object_ptr, Declaring_Typ, A(C::*), void, Acc_Leve
         {
             auto obj = make_property_info<Declaring_Typ, return_as_ptr, accessor>(prop, m_acc);
             visitor_iterator<Visitor_List>::visit(visitor, make_property_visitor_invoker<read_only>(obj));
+        }
+
+        // let external libraries do unsafe things
+        void* get_address(instance& object) const
+        {
+            if (auto ptr = object.try_convert<C>())
+                return &ptr->*m_acc;
+            else
+                return nullptr;
+        }
+
+        template<class TT>
+        TT* get_address(instance& object) const
+        { return static_cast<TT*>(get_address()) ; }
+
+        // let external libraries do unsafe things
+        bool set_address(instance& object, void* val) const
+        {
+            if (auto ptr = object.try_convert<C>()) {
+                return property_accessor<A>::set_value((ptr->*m_acc), *reinterpret_cast<A*>(val));
+                return true;
+            }
+            else
+                return false;
         }
 
     private:
@@ -296,6 +391,30 @@ class property_wrapper<member_object_ptr, Declaring_Typ, A(C::*), void, Acc_Leve
             visitor_iterator<Visitor_List>::visit(visitor, make_property_visitor_invoker(obj));
         }
 
+        // let external libraries do unsafe things
+        void* get_address(instance& object) const
+        {
+            if (auto ptr = object.try_convert<C>())
+                return &ptr->*m_acc;
+            else
+                return nullptr;
+        }
+
+        template<class TT>
+        TT* get_address(instance& object) const
+        { return static_cast<TT*>(get_address()) ; }
+
+        // let external libraries do unsafe things
+        bool set_address(instance& object, void* val) const
+        {
+            if (auto ptr = object.try_convert<C>()) {
+                return property_accessor<A>::set_value((ptr->*m_acc), *reinterpret_cast<A*>(val));
+                return true;
+            }
+            else
+                return false;
+        }
+
     private:
         accessor m_acc;
 };
@@ -345,6 +464,30 @@ class property_wrapper<member_object_ptr, Declaring_Typ, A(C::*), void, Acc_Leve
         {
             auto obj = make_property_info<Declaring_Typ, get_as_ref_wrapper, accessor>(prop, m_acc);
             visitor_iterator<Visitor_List>::visit(visitor, make_property_visitor_invoker<read_only>(obj));
+        }
+
+        // let external libraries do unsafe things
+        void* get_address(instance& object) const
+        {
+            if (auto ptr = object.try_convert<C>())
+                return &ptr->*m_acc;
+            else
+                return nullptr;
+        }
+
+        template<class TT>
+        TT* get_address(instance& object) const
+        { return static_cast<TT*>(get_address()) ; }
+
+        // let external libraries do unsafe things
+        bool set_address(instance& object, void* val) const
+        {
+            if (auto ptr = object.try_convert<C>()) {
+                return property_accessor<A>::set_value((ptr->*m_acc), *reinterpret_cast<A*>(val));
+                return true;
+            }
+            else
+                return false ;
         }
 
     private:
