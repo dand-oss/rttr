@@ -68,6 +68,12 @@ class property_wrapper<object_ptr, C*, void, Acc_Level, return_as_copy, set_valu
             return (variant(*m_accessor));
         }
 
+        // let external libraries do unsafe things
+        void* get_address(instance& object) const
+        {
+            return m_accessor;
+        }
+
     private:
         C* m_accessor;
 };
@@ -106,6 +112,12 @@ class property_wrapper<object_ptr, C*, void, Acc_Level, return_as_copy, read_onl
         variant get_value(instance& object) const
         {
             return (variant(*m_accessor));
+        }
+
+        // let external libraries do unsafe things
+        void* get_address(instance& object) const
+        {
+            return m_accessor;
         }
 
     private:
@@ -158,6 +170,12 @@ class property_wrapper<object_ptr, C*, void, Acc_Level, return_as_ptr, set_as_pt
             return (variant(m_accessor));
         }
 
+        // let external libraries do unsafe things
+        void* get_address(instance& object) const
+        {
+            return m_accessor;
+        }
+
     private:
         C* m_accessor;
 };
@@ -196,6 +214,12 @@ class property_wrapper<object_ptr, C*, void, Acc_Level, return_as_ptr, read_only
         variant get_value(instance& object) const
         {
             return (variant(m_accessor));
+        }
+
+        // let external libraries do unsafe things
+        void* get_address(instance& object) const
+        {
+            return m_accessor;
         }
 
     private:
@@ -243,6 +267,12 @@ class property_wrapper<object_ptr, C*, void, Acc_Level, get_as_ref_wrapper, set_
             return (variant(std::ref(*m_accessor)));
         }
 
+        // let external libraries do unsafe things
+        void* get_address(instance& object) const
+        {
+            return m_accessor;
+        }
+
     private:
         C* m_accessor;
 };
@@ -281,6 +311,12 @@ class property_wrapper<object_ptr, C*, void, Acc_Level, get_as_ref_wrapper, read
         variant get_value(instance& object) const
         {
             return (variant(std::cref(*m_accessor)));
+        }
+
+        // let external libraries do unsafe things
+        void* get_address(instance& object) const
+        {
+            return m_accessor;
         }
 
     private:
