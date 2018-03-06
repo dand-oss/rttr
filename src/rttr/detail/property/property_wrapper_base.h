@@ -80,6 +80,12 @@ class RTTR_API property_wrapper_base
 
         virtual void visit(visitor& visitor, property prop) const RTTR_NOEXCEPT;
 
+        virtual void* get_address(instance& object) const ;
+        template<class TT>
+        TT* get_address(instance& object) const
+        { return static_cast<TT*>(get_address(object)); }
+        virtual bool set_address(instance& object, void*) const ;
+
     protected:
         void init() RTTR_NOEXCEPT;
 
