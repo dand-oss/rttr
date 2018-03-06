@@ -73,6 +73,12 @@ class property_wrapper<object_ptr, Declaring_Typ, C*, void, Acc_Level, return_as
             visitor_iterator<Visitor_List>::visit(visitor, make_property_visitor_invoker(obj));
         }
 
+        // let external libraries do unsafe things
+        void* get_address(instance& object) const
+        {
+            return m_accessor;
+        }
+
     private:
         C* m_accessor;
 };
@@ -116,6 +122,12 @@ class property_wrapper<object_ptr, Declaring_Typ, C*, void, Acc_Level, return_as
         {
             auto obj = make_property_info<Declaring_Typ, return_as_copy, C*>(prop, m_accessor);
             visitor_iterator<Visitor_List>::visit(visitor, make_property_visitor_invoker<read_only>(obj));
+        }
+
+        // let external libraries do unsafe things
+        void* get_address(instance& object) const
+        {
+            return m_accessor;
         }
 
     private:
@@ -173,6 +185,12 @@ class property_wrapper<object_ptr, Declaring_Typ, C*, void, Acc_Level, return_as
             visitor_iterator<Visitor_List>::visit(visitor, make_property_visitor_invoker(obj));
         }
 
+        // let external libraries do unsafe things
+        void* get_address(instance& object) const
+        {
+            return m_accessor;
+        }
+
     private:
         C* m_accessor;
 };
@@ -216,6 +234,12 @@ class property_wrapper<object_ptr, Declaring_Typ, C*, void, Acc_Level, return_as
         {
             auto obj = make_property_info<Declaring_Typ, return_as_ptr, C*>(prop, m_accessor);
             visitor_iterator<Visitor_List>::visit(visitor, make_property_visitor_invoker<read_only>(obj));
+        }
+
+        // let external libraries do unsafe things
+        void* get_address(instance& object) const
+        {
+            return m_accessor;
         }
 
     private:
@@ -268,6 +292,12 @@ class property_wrapper<object_ptr, Declaring_Typ, C*, void, Acc_Level, get_as_re
             visitor_iterator<Visitor_List>::visit(visitor, make_property_visitor_invoker(obj));
         }
 
+        // let external libraries do unsafe things
+        void* get_address(instance& object) const
+        {
+            return m_accessor;
+        }
+
     private:
         C* m_accessor;
 };
@@ -311,6 +341,12 @@ class property_wrapper<object_ptr, Declaring_Typ, C*, void, Acc_Level, get_as_re
         {
             auto obj = make_property_info<Declaring_Typ, get_as_ref_wrapper, C*>(prop, m_accessor);
             visitor_iterator<Visitor_List>::visit(visitor, make_property_visitor_invoker<read_only>(obj));
+        }
+
+        // let external libraries do unsafe things
+        void* get_address(instance& object) const
+        {
+            return m_accessor;
         }
 
     private:
