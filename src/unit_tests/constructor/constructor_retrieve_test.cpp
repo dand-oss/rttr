@@ -41,7 +41,7 @@ struct ctor_test
 
 static ctor_test global_create_object() { return ctor_test(); }
 
-RTTR_REGISTRATION
+RTTR_REGISTRATION(ctor_test)
 {
     registration::class_<ctor_test>("ctor_test")
         .constructor<>()

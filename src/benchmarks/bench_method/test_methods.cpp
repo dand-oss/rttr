@@ -30,7 +30,7 @@
 #include <rttr/registration>
 
 
-RTTR_REGISTRATION
+RTTR_REGISTRATION(ns_foo_method_class)
 {
     using namespace rttr;
 

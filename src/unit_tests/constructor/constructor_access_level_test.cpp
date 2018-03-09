@@ -56,10 +56,10 @@ struct ctor_access_level_test
         ctor_access_level_test(bool) {}
         ctor_access_level_test(bool, bool) {}
 
-    RTTR_REGISTRATION_FRIEND
+    RTTR_REGISTRATION_FRIEND(ctor_access_level_test)
 };
 
-RTTR_REGISTRATION
+RTTR_REGISTRATION(ctor_access_level_test)
 {
     registration::class_<ctor_access_level_test>("ctor_access_level_test")
         // native ctor

@@ -59,7 +59,7 @@ struct property_member_func_test
     int             m_int_value;
     func_ptr        m_funcPtr;
 
-    RTTR_REGISTRATION_FRIEND;
+    RTTR_REGISTRATION_FRIEND(property_member_func_test)
 };
 
 static void my_callback(int)
@@ -68,7 +68,7 @@ static void my_callback(int)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-RTTR_REGISTRATION
+RTTR_REGISTRATION(property_member_func_test)
 {
     registration::class_<property_member_func_test>("property_member_func_test")
         .property("p1", &property_member_func_test::get_text, &property_member_func_test::set_text)

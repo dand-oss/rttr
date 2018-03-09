@@ -90,7 +90,7 @@ private:
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-RTTR_REGISTRATION
+RTTR_REGISTRATION(ctor_invoke_test)
 {
     registration::class_<ctor_invoke_test>("ctor_invoke_test")
         .constructor<>() (policy::ctor::as_raw_ptr)

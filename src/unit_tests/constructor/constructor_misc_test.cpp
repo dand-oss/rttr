@@ -56,7 +56,7 @@ enum class E_MetaData
     DESCRIPTION = 2
 };
 
-RTTR_REGISTRATION
+RTTR_REGISTRATION(ctor_misc_test)
 {
    registration::class_<ctor_misc_test>("ctor_misc_test")
         (

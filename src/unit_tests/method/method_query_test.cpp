@@ -58,7 +58,7 @@ struct method_query_test_derived : method_query_test_base
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-RTTR_REGISTRATION
+RTTR_REGISTRATION(method_query_test_base)
 {
     registration::class_<method_query_test_base>("method_query_test_base")
         .method("base", &method_query_test_base::func_1)

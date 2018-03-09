@@ -39,7 +39,7 @@ struct constructor_invoker;
 }
 }
 
-static void rttr_auto_register_reflection_function_();
+#define RTTR_REGISTRATION_FRIEND_DECL(cls) static void rttr_auto_register_reflection_function_##cls##_();
 
 #ifdef DOXYGEN
 
@@ -65,9 +65,9 @@ static void rttr_auto_register_reflection_function_();
  * }
  * \endcode
  */
-#define RTTR_REGISTRATION_FRIEND
+#define RTTR_REGISTRATION_FRIEND(cls)
 #else
-#define RTTR_REGISTRATION_FRIEND friend void ::rttr_auto_register_reflection_function_();                               \
+#define RTTR_REGISTRATION_FRIEND(cls) friend void ::rttr_auto_register_reflection_function_##cls##_();                    \
                                  template<typename Ctor_Type, typename Policy, typename Accessor, typename Arg_Indexer> \
                                  friend struct rttr::detail::constructor_invoker;
 #endif

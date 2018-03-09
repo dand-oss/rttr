@@ -83,7 +83,7 @@ struct circle : shape
     RTTR_ENABLE(shape)
 };
 
-RTTR_REGISTRATION
+RTTR_REGISTRATION(shape)
 {
     rttr::registration::class_<shape>("shape")
         .property("visible", &shape::get_visible, &shape::set_visible)

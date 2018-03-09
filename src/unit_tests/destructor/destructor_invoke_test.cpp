@@ -39,7 +39,7 @@ struct dtor_invoke_test
 
 };
 
-RTTR_REGISTRATION
+RTTR_REGISTRATION(dtor_invoke_test)
 {
     registration::class_<dtor_invoke_test>("dtor_invoke_test")
         .constructor<>() (policy::ctor::as_raw_ptr)

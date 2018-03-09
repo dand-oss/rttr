@@ -285,34 +285,34 @@ registration::bind<detail::enum_, detail::invalid_type, Enum_Type> registration:
 
 } // end namespace rttr
 
-#define RTTR_REGISTRATION                                                           \
-static void rttr_auto_register_reflection_function_();                              \
+#define RTTR_REGISTRATION(cls)                                                      \
+static void rttr_auto_register_reflection_function_##cls##_();                      \
 namespace                                                                           \
 {                                                                                   \
-    struct rttr__auto__register__                                                   \
+    struct rttr__auto__register__##cls##__                                          \
     {                                                                               \
-        rttr__auto__register__()                                                    \
+        rttr__auto__register__##cls##__()                                           \
         {                                                                           \
-            rttr_auto_register_reflection_function_();                              \
+            rttr_auto_register_reflection_function_##cls##_();                      \
         }                                                                           \
     };                                                                              \
 }                                                                                   \
-static const rttr__auto__register__ RTTR_CAT(auto_register__, __LINE__);            \
-static void rttr_auto_register_reflection_function_()
+static const rttr__auto__register__##cls##__ RTTR_CAT(auto_register__, __LINE__);   \
+static void rttr_auto_register_reflection_function_##cls##_()
 
 
 #if RTTR_COMPILER == RTTR_COMPILER_MSVC
-#define RTTR_PLUGIN_REGISTRATION RTTR_REGISTRATION
+#define RTTR_PLUGIN_REGISTRATION(cls) RTTR_REGISTRATION(cls)
 #else
-#define RTTR_PLUGIN_REGISTRATION                                                    \
-static void rttr_auto_register_reflection_function_() RTTR_DECLARE_PLUGIN_CTOR;     \
-static void rttr_auto_unregister_reflection_function() RTTR_DECLARE_PLUGIN_DTOR;    \
+#define RTTR_PLUGIN_REGISTRATION(cls)                                               \
+static void rttr_auto_register_reflection_function_##cls##_() RTTR_DECLARE_PLUGIN_CTOR; \
+static void rttr_auto_unregister_reflection_function_##cls##() RTTR_DECLARE_PLUGIN_DTOR; \
                                                                                     \
-static void rttr_auto_unregister_reflection_function()                              \
+static void rttr_auto_unregister_reflection_function_##cls##()                      \
 {                                                                                   \
     rttr::detail::get_registration_manager().unregister();                          \
 }                                                                                   \
-static void rttr_auto_register_reflection_function_()
+static void rttr_auto_register_reflection_function_##cls##_()
 #endif
 
 

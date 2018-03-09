@@ -47,7 +47,7 @@ static int g_prop_invoke = 42;
 
 using namespace rttr;
 
-RTTR_REGISTRATION
+RTTR_REGISTRATION(type_prop_invoke_test_base)
 {
     registration::class_<type_prop_invoke_test_base>("type_prop_invoke_test_base")
         .property("p1", &type_prop_invoke_test_base::p1);

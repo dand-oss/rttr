@@ -61,7 +61,7 @@ struct ctor_param_info_test
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-RTTR_REGISTRATION
+RTTR_REGISTRATION(ctor_param_info_test)
 {
     registration::class_<ctor_param_info_test>("ctor_param_info_test")
         .constructor<>() // no params

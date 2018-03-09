@@ -68,7 +68,7 @@ struct derived_class_without_registered_methods : base_class_with_methods
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-RTTR_REGISTRATION
+RTTR_REGISTRATION(method_misc_test)
 {
     registration::class_<method_misc_test>("method_misc_test")
         .method("func", &method_misc_test::func)

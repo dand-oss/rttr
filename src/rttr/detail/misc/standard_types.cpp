@@ -37,7 +37,7 @@
 // thats a bug in libc++, because of interaction with __attribute__ ((__visibility__("hidden"), __always_inline__)) in std::string
 template class std::basic_string<char>;
 
-RTTR_REGISTRATION
+RTTR_REGISTRATION(nullptr_t)
 {
     using namespace rttr;
 

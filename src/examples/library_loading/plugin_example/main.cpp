@@ -51,7 +51,7 @@ struct MyPluginClass
     int value = 0;
 };
 
-RTTR_PLUGIN_REGISTRATION
+RTTR_PLUGIN_REGISTRATION(MyPluginClass)
 {
    rttr::registration::class_<MyPluginClass>("MyPluginClass")
         .constructor<>()

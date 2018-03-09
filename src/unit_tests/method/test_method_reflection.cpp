@@ -92,7 +92,7 @@ struct derive_registered_with_base_class_list : base_not_registered
 
 bool method_test::method_7_called = false;
 
-RTTR_REGISTRATION
+RTTR_REGISTRATION(method_test)
 {
     registration::class_<method_test>("method_test")
         .constructor<>() (policy::ctor::as_raw_ptr)

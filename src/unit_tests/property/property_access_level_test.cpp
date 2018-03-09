@@ -51,12 +51,12 @@ private:
     int value_3;
     bool value_7;
 
-    RTTR_REGISTRATION_FRIEND
+    RTTR_REGISTRATION_FRIEND(prop_access_level_test)
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-RTTR_REGISTRATION
+RTTR_REGISTRATION(prop_access_level_test)
 {
     registration::class_<prop_access_level_test>("prop_access_level_test")
         .property("val_1", &prop_access_level_test::value_1) // default, should be "public_access"

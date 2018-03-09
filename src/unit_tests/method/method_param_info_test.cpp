@@ -55,7 +55,7 @@ struct method_param_info_test
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-RTTR_REGISTRATION
+RTTR_REGISTRATION(method_param_info_test)
 {
     registration::class_<method_param_info_test>("method_param_info_test")
         .method("method_1", &method_param_info_test::method_1) // no params

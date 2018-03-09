@@ -43,7 +43,7 @@ struct constructor_query_test
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-RTTR_REGISTRATION
+RTTR_REGISTRATION(constructor_query_test)
 {
     registration::class_<constructor_query_test>("constructor_query_test")
         .constructor<>()( policy::ctor::as_object )

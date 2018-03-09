@@ -51,7 +51,7 @@ struct method_invoke_test
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-RTTR_REGISTRATION
+RTTR_REGISTRATION(method_invoke_test)
 {
     registration::class_<method_invoke_test>("method_invoke_test")
         .method("func_0", &method_invoke_test::func_0)

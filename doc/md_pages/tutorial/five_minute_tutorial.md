@@ -21,7 +21,7 @@ public:
     const std::string& get_name() const;
 
     std::vector<node*> get_children() const;
-    
+
     void set_visible(bool visible, bool cascade = true);
 
     virtual void render();
@@ -32,7 +32,7 @@ private:
     std::vector<node*>  m_children;
 
     RTTR_ENABLE()
-    RTTR_REGISTRATION_FRIEND
+    RTTR_REGISTRATION_FRIEND(ns_3d)
 };
 }
 ~~~~
@@ -53,7 +53,7 @@ RTTR_REGISTRATION
 {
     using namespace rttr;
     using namespace ns_3d;
-    
+
     registration::class_<node>("ns_3d::node")
         .constructor<std::string, node*>()
         (
@@ -77,7 +77,7 @@ RTTR_REGISTRATION
 }
 ~~~~
 The standard include file for registration types in rttr is: `<rttr/registration>`<br>Include this file only when you want to register something.
-The \ref rttr::registration "registration" class is here the entry point. 
+The \ref rttr::registration "registration" class is here the entry point.
 This registration process creates internally wrapper classes, which store for example function pointers or object pointers of the specific class.
 For these pointers you have to provide the data manually.
 
@@ -224,14 +224,14 @@ Basic Usage
 int main(int argc, char *argv[])
 {
     std::shared_ptr<ns_3d::node> obj = ns_3d::mesh::create_mesh("House.obj");
-    
+
     std::cout << type::get(obj).get_name() << "\n";                     // prints 'std::shared_ptr<ns_3d::node>'
     std::cout << type::get(obj).get_wrapped_type().get_name() << "\n";  // prints 'ns_3d::node*'
     std::cout << type::get(*obj.get()).get_name() << "\n";              // prints 'ns_3d::mesh'
 
     // for glvalue expressions the most derived type is returned, in this case: 'ns_3d::mesh'; like typeid()
     type t = type::get(*obj.get());
-    
+
     std::cout << "\n";
 
     std::cout << "'mesh' properties:" << "\n";
@@ -240,7 +240,7 @@ int main(int argc, char *argv[])
         std::cout << "  name: " << prop.get_name() << "\n";
         std::cout << "    type: " << prop.get_type().get_name() << "\n";
     }
-    
+
     property prop = t.get_property("render_mode");
     // set the property of the derived type, although we hold only a shared_ptr of the base class
     bool ret = prop.set_value(obj, ns_3d::mesh::render_mode::SOLID); // yields to 'true'; when set was possible
@@ -277,9 +277,9 @@ See the output below:
     ns_3d::node
     invoke of method 'render' was successfully: true
 
-That's it. 
+That's it.
 
-However, in order to see all the possibilities of RTTR, it is recommend to go through the in-depth tutorial: [Start Tutorial](@ref rttr_type_get_page)       
+However, in order to see all the possibilities of RTTR, it is recommend to go through the in-depth tutorial: [Start Tutorial](@ref rttr_type_get_page)
 
 <hr>
 

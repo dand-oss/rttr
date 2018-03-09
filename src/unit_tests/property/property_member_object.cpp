@@ -61,7 +61,7 @@ struct property_member_obj_test
 private:
     property_member_obj_test& operator=(const property_member_obj_test& obj);
 
-    RTTR_REGISTRATION_FRIEND
+    RTTR_REGISTRATION_FRIEND(property_member_obj_test)
 };
 
 
@@ -70,7 +70,7 @@ private:
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-RTTR_REGISTRATION
+RTTR_REGISTRATION(property_member_obj_test)
 {
     registration::class_<property_member_obj_test>("property_member_obj_test")
         .property("p1",    &property_member_obj_test::_p1) ( metadata("Description", "Some Text") )

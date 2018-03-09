@@ -41,7 +41,7 @@ struct method_access_level_test
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-RTTR_REGISTRATION
+RTTR_REGISTRATION(method_access_level_test)
 {
     registration::class_<method_access_level_test>("method_access_level_test")
         .method("method_1", &method_access_level_test::method_1) // default policy should be "public_access"

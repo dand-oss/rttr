@@ -47,14 +47,14 @@ struct prop_misc_test
     std::vector<int> list;
     static int s_value;
 
-    RTTR_REGISTRATION_FRIEND
+    RTTR_REGISTRATION_FRIEND(prop_misc_test)
 };
 
 int prop_misc_test::s_value = 0;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-RTTR_REGISTRATION
+RTTR_REGISTRATION(prop_misc_test)
 {
     registration::class_<prop_misc_test>("prop_misc_test")
         .property("value_1", &prop_misc_test::value_1)

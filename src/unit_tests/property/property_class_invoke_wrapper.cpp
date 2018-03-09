@@ -54,7 +54,7 @@ struct property_wrapper_test : property_wrapper_test_base
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-RTTR_REGISTRATION
+RTTR_REGISTRATION(property_wrapper_test_base)
 {
     registration::class_<property_wrapper_test_base>("property_wrapper_test_base")
         .constructor<>()
