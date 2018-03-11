@@ -96,6 +96,44 @@ public:\
     using base_class_list = TYPE_LIST(__VA_ARGS__); \
 private:
 
+// split version of RTTR_ENABLE()
+// allows forward declare in header
+
+#define RTTR_DECLARE(...) \
+public:\
+    virtual rttr::type get_type() const ;  \
+    virtual void* get_ptr() ; \
+    virtual rttr::detail::derived_info get_derived_info() ; \
+    using base_class_list = TYPE_LIST(__VA_ARGS__); \
+private:
+
+#define RTTR_DEFINE(rclass) \
+    rttr::type rclass::get_type() const \
+        { return rttr::detail::get_type_from_instance(this); }  \
+    void* rclass::get_ptr() \
+        { return reinterpret_cast<void*>(this); } \
+    rttr::detail::derived_info rclass::get_derived_info() { \
+        return { \
+            reinterpret_cast<void*>(this), \
+            rttr::detail::get_type_from_instance(this) \
+        }; \
+    } \
+
+#define RTTR_TEMPLATE_DEFINE(rclass) \
+    template<> \
+    rttr::type rclass::get_type() const \
+        { return rttr::detail::get_type_from_instance(this); }  \
+    template<> \
+    void* rclass::get_ptr() \
+        { return reinterpret_cast<void*>(this); } \
+    template<> \
+    rttr::detail::derived_info rclass::get_derived_info() { \
+        return { \
+            reinterpret_cast<void*>(this), \
+            rttr::detail::get_type_from_instance(this) \
+        }; \
+    } \
+
 #endif // DOXYGEN
 
 #endif // RTTR_RTTR_ENABLE_H_
