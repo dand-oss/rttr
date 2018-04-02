@@ -90,6 +90,8 @@ public:
 
     RTTR_INLINE argument& operator=(const argument& other) RTTR_NOEXCEPT;
 
+    template<class T>
+    RTTR_INLINE bool can_convert() const { return m_variant->can_convert<T>(); }
     RTTR_INLINE type get_type() const RTTR_NOEXCEPT;
 #ifdef DOXYGEN
     template<typename T>

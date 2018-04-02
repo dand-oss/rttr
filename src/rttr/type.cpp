@@ -121,7 +121,8 @@ void* type::apply_offset(void* ptr, const type& source_type, const type& target_
     if (src_raw_type == tgt_raw_type || ptr == nullptr)
         return ptr;
 
-    const detail::derived_info info = src_raw_type->get_class_data().m_derived_info_func(ptr);
+    const auto& cdata = src_raw_type->get_class_data() ;
+    const auto& info = cdata.m_derived_info_func(ptr);
     if (info.m_type.m_type_data->raw_type_data == tgt_raw_type)
         return info.m_ptr;
 
