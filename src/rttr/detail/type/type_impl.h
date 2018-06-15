@@ -325,6 +325,12 @@ RTTR_LOCAL RTTR_INLINE type get_type_from_instance(const T*) RTTR_NOEXCEPT
     return detail::create_or_get_type<T>();
 }
 
+template<typename T>
+RTTR_LOCAL RTTR_INLINE type get_pointer_type_from_instance(const T*) RTTR_NOEXCEPT
+{
+    return rttr::type::get<T*>();
+}
+
 /////////////////////////////////////////////////////////////////////////////////
 
 template<typename T, bool>
