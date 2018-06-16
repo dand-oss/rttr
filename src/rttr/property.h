@@ -256,6 +256,7 @@ class RTTR_API property
         bool operator!=(const property& other) const RTTR_NOEXCEPT;
 
         void* get_address(instance object) const ;
+        bool set_address(instance object, void* val) const ;
 
     private:
         //! Constructs a property from a property_wrapper_base.
