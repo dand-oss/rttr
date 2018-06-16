@@ -73,6 +73,12 @@ class property_wrapper<object_ptr, C*, void, Acc_Level, return_as_copy, set_valu
             return m_accessor;
         }
 
+        bool set_address(instance& object, void* val) const
+        {
+            m_accessor = val ;
+            return true;
+        }
+
     private:
         C* m_accessor;
 };
@@ -116,6 +122,12 @@ class property_wrapper<object_ptr, C*, void, Acc_Level, return_as_copy, read_onl
         void* get_address(instance& object) const
         {
             return m_accessor;
+        }
+
+        bool set_address(instance& object, void* val) const
+        {
+            m_accessor = val ;
+            return true;
         }
 
     private:
@@ -173,6 +185,12 @@ class property_wrapper<object_ptr, C*, void, Acc_Level, return_as_ptr, set_as_pt
             return m_accessor;
         }
 
+        bool set_address(instance& object, void* val) const
+        {
+            m_accessor = val ;
+            return true;
+        }
+
     private:
         C* m_accessor;
 };
@@ -216,6 +234,12 @@ class property_wrapper<object_ptr, C*, void, Acc_Level, return_as_ptr, read_only
         void* get_address(instance& object) const
         {
             return m_accessor;
+        }
+
+        bool set_address(instance& object, void* val) const
+        {
+            m_accessor = val ;
+            return true;
         }
 
     private:
@@ -268,6 +292,12 @@ class property_wrapper<object_ptr, C*, void, Acc_Level, get_as_ref_wrapper, set_
             return m_accessor;
         }
 
+        bool set_address(instance& object, void* val) const
+        {
+            m_accessor = val ;
+            return true;
+        }
+
     private:
         C* m_accessor;
 };
@@ -311,6 +341,11 @@ class property_wrapper<object_ptr, C*, void, Acc_Level, get_as_ref_wrapper, read
         void* get_address(instance& object) const
         {
             return m_accessor;
+        }
+
+        bool set_address(instance& object, void*) const
+        {
+            return false;
         }
 
     private:

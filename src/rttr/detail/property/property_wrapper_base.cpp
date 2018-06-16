@@ -130,6 +130,11 @@ void* property_wrapper_base::get_address(instance& object) const
     return nullptr ;
 }
 
+bool property_wrapper_base::set_address(instance& object, void*) const
+{
+    return false;
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 } // end namespace detail

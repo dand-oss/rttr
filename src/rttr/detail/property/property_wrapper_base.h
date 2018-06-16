@@ -78,6 +78,7 @@ class RTTR_API property_wrapper_base
         virtual variant get_value(instance& object) const;
 
         virtual void* get_address(instance& object) const ;
+        virtual bool set_address(instance& object, void*) const ;
 
     protected:
         void init() RTTR_NOEXCEPT;
