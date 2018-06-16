@@ -87,6 +87,16 @@ class property_wrapper<member_object_ptr, Declaring_Typ, A(C::*), void, Acc_Leve
                 return nullptr;
         }
 
+        // let external libraries do unsafe things
+        bool set_address(instance& object, void* val) const
+        {
+            if (auto ptr = object.try_convert<C>()) {
+                return property_accessor<A>::set_value((ptr->*m_acc), *reinterpret_cast<A*>(val));
+            }
+            else
+                return false;
+        }
+
     private:
         accessor m_acc;
 };
@@ -145,6 +155,17 @@ class property_wrapper<member_object_ptr, Declaring_Typ, A(C::*), void, Acc_Leve
                 return &ptr->*m_acc;
             else
                 return nullptr;
+        }
+
+        // let external libraries do unsafe things
+        bool set_address(instance& object, void* val) const
+        {
+            if (auto ptr = object.try_convert<C>()) {
+                return property_accessor<A>::set_value((ptr->*m_acc), *reinterpret_cast<A*>(val));
+                return true;
+            }
+            else
+                return false;
         }
 
     private:
@@ -216,6 +237,17 @@ class property_wrapper<member_object_ptr, Declaring_Typ, A(C::*), void, Acc_Leve
                 return nullptr;
         }
 
+        // let external libraries do unsafe things
+        bool set_address(instance& object, void* val) const
+        {
+            if (auto ptr = object.try_convert<C>()) {
+                return property_accessor<A>::set_value((ptr->*m_acc), *reinterpret_cast<A*>(val));
+                return true;
+            }
+            else
+                return false;
+        }
+
     private:
         accessor m_acc;
 };
@@ -274,6 +306,17 @@ class property_wrapper<member_object_ptr, Declaring_Typ, A(C::*), void, Acc_Leve
                 return &ptr->*m_acc;
             else
                 return nullptr;
+        }
+
+        // let external libraries do unsafe things
+        bool set_address(instance& object, void* val) const
+        {
+            if (auto ptr = object.try_convert<C>()) {
+                return property_accessor<A>::set_value((ptr->*m_acc), *reinterpret_cast<A*>(val));
+                return true;
+            }
+            else
+                return false;
         }
 
     private:
@@ -341,6 +384,17 @@ class property_wrapper<member_object_ptr, Declaring_Typ, A(C::*), void, Acc_Leve
                 return nullptr;
         }
 
+        // let external libraries do unsafe things
+        bool set_address(instance& object, void* val) const
+        {
+            if (auto ptr = object.try_convert<C>()) {
+                return property_accessor<A>::set_value((ptr->*m_acc), *reinterpret_cast<A*>(val));
+                return true;
+            }
+            else
+                return false;
+        }
+
     private:
         accessor m_acc;
 };
@@ -399,6 +453,17 @@ class property_wrapper<member_object_ptr, Declaring_Typ, A(C::*), void, Acc_Leve
                 return &ptr->*m_acc;
             else
                 return nullptr;
+        }
+
+        // let external libraries do unsafe things
+        bool set_address(instance& object, void* val) const
+        {
+            if (auto ptr = object.try_convert<C>()) {
+                return property_accessor<A>::set_value((ptr->*m_acc), *reinterpret_cast<A*>(val));
+                return true;
+            }
+            else
+                return false ;
         }
 
     private:

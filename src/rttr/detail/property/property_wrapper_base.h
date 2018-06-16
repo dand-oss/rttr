@@ -81,6 +81,7 @@ class RTTR_API property_wrapper_base
         virtual void visit(visitor& visitor, property prop) const RTTR_NOEXCEPT;
 
         virtual void* get_address(instance& object) const ;
+        virtual bool set_address(instance& object, void*) const ;
 
     protected:
         void init() RTTR_NOEXCEPT;
