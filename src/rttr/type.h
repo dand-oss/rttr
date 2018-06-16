@@ -1111,6 +1111,9 @@ class RTTR_API type
         template<typename T>
         static void register_less_than_comparator();
 
+        //! Creates a variant from the given argument data.
+        RTTR_INLINE variant create_variant(const argument& data) const;
+
     private:
 
         /*!
@@ -1207,9 +1210,6 @@ class RTTR_API type
         /////////////////////////////////////////////////////////////////////////////////
         /////////////////////////////////////////////////////////////////////////////////
         /////////////////////////////////////////////////////////////////////////////////
-
-        //! Creates a variant from the given argument data.
-        RTTR_INLINE variant create_variant(const argument& data) const;
 
         friend class variant;
         template<typename Target_Type, typename Source_Type>
