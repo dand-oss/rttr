@@ -216,12 +216,15 @@ bool type::destroy(variant& obj) const RTTR_NOEXCEPT
 property type::get_property(string_view name) const RTTR_NOEXCEPT
 {
     const auto& vec = get_raw_type().m_type_data->get_class_data().m_properties;
-    auto ret = std::find_if(vec.cbegin(), vec.cend(),
+    // properties are ordered from base to derived
+    // use reverse iterator to find the most-derived propertie
+    // when searching by name
+    auto ret = std::find_if(vec.crbegin(), vec.crend(),
                             [name](const property& item)
                             {
                                 return (item.get_name() == name);
                             });
-    if (ret != vec.cend())
+    if (ret != vec.crend())
         return *ret;
 
     return detail::create_invalid_item<property>();
@@ -293,12 +296,15 @@ method type::get_method(string_view name) const RTTR_NOEXCEPT
 {
     const auto raw_t = get_raw_type();
     const auto& vec = raw_t.m_type_data->get_class_data().m_methods;
-    auto ret = std::find_if(vec.cbegin(), vec.cend(),
+    // methods appear are ordered from base to derived
+    // use reverse iterator to find the most-derived method
+    // when searching by name
+    auto ret = std::find_if(vec.crbegin(), vec.crend(),
                             [name](const method& item)
                             {
                                 return (item.get_name() == name);
                             });
-    if (ret != vec.cend())
+    if (ret != vec.crend())
         return *ret;
 
     return detail::create_invalid_item<method>();
