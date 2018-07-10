@@ -130,7 +130,7 @@ registration::class_<Class_Type>& registration::class_<Class_Type>::operator()(A
 
 template<typename Class_Type>
 template<typename... Args, typename acc_level, typename Tp>
-registration::bind<detail::ctor, Class_Type, acc_level, Args...> registration::class_<Class_Type>::constructor(acc_level level)
+registration::bind<detail::ctor, Class_Type, acc_level, Args...> registration::class_<Class_Type>::constructor(acc_level)
 {
     return {create_if_empty(m_reg_exec)};
 }
