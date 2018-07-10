@@ -108,7 +108,7 @@ detail::default_predicate<T> get_filter_predicate(const type& t, filter_items fi
 /////////////////////////////////////////////////////////////////////////////////////////
 
 template<>
-RTTR_INLINE detail::default_predicate<constructor> get_filter_predicate(const type& t, filter_items filter)
+RTTR_INLINE detail::default_predicate<constructor> get_filter_predicate(const type&, filter_items filter)
 {
     if (!is_valid_filter_item(filter))
     {
