@@ -273,7 +273,7 @@ class constructor_wrapper<Class_Type, class_ctor, Acc_Level, Policy,
 
     public:
         constructor_wrapper(std::array<metadata, Metadata_Count> metadata_list,
-                            parameter_infos<> param_infos) RTTR_NOEXCEPT
+                            parameter_infos<>) RTTR_NOEXCEPT
         :   metadata_handler<Metadata_Count>(std::move(metadata_list))
         {
             init();

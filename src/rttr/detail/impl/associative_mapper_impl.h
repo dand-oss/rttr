@@ -456,73 +456,73 @@ namespace detail
 
 struct associative_container_empty
 {
-    static void create(iterator_data& itr_tgt, const iterator_data& src)
+    static void create(iterator_data&, const iterator_data&)
     {
     }
 
-    static void advance(iterator_data& itr, std::ptrdiff_t idx)
+    static void advance(iterator_data&, std::ptrdiff_t)
     {
     }
 
-    static void destroy(iterator_data& itr)
+    static void destroy(iterator_data&)
     {
     }
 
-    static bool equal(const iterator_data& lhs_itr, const iterator_data& rhs_itr) RTTR_NOEXCEPT
-    {
-        return true;
-    }
-
-    static variant get_key(const iterator_data& itr)
-    {
-        return variant();
-    }
-
-    static variant get_value(const iterator_data& itr)
-    {
-        return variant();
-    }
-
-    static void begin(void* container, iterator_data& itr)
-    {
-
-    }
-
-    static bool is_empty(void* container)
+    static bool equal(const iterator_data&, const iterator_data&) RTTR_NOEXCEPT
     {
         return true;
     }
 
-    static std::size_t get_size(void* container)
+    static variant get_key(const iterator_data&)
+    {
+        return variant();
+    }
+
+    static variant get_value(const iterator_data&)
+    {
+        return variant();
+    }
+
+    static void begin(void*, iterator_data&)
+    {
+
+    }
+
+    static bool is_empty(void*)
+    {
+        return true;
+    }
+
+    static std::size_t get_size(void*)
     {
         return 0;
     }
 
-    static void find(void* container, iterator_data& itr, argument& arg)
+    static void find(void*, iterator_data&, argument&)
     {
     }
 
-    static std::size_t erase(void* container, argument& arg)
+    static std::size_t erase(void*, argument&)
     {
         return 0;
     }
 
-    static void clear(void* container)
+    static void clear(void*)
     {
     }
 
-    static void equal_range(void* container, argument& key,
-                            iterator_data& itr_begin, iterator_data& itr_end)
+    static void equal_range(void*, argument&,
+                            iterator_data&, iterator_data&)
     {
 
     }
 
-    static bool insert_key(void* container, argument& key, iterator_data& itr)
+    static bool insert_key(void*, argument&, iterator_data&)
     {
         return false;
     }
 
-    static bool insert_key_value(void* container, argument& key, argument& value, iterator_data& itr)
+    static bool insert_key_value(void*, argument&, argument&, iterator_data&)
     {
         return false;
     }
