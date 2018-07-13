@@ -40,7 +40,7 @@ if (USE_PCH)
 endif()
 
 add_executable(unit_tests ${SRC_FILES} ${HPP_FILES})
-target_link_libraries(unit_tests RTTR::Core Catch2::Catch)
+target_link_libraries(unit_tests asan RTTR::Core Catch2::Catch)
 add_dependencies(unit_tests RTTR::Core)
 set_target_properties(unit_tests PROPERTIES DEBUG_POSTFIX ${RTTR_DEBUG_POSTFIX}
                                             FOLDER "Testing"
@@ -54,13 +54,13 @@ if (MSVC)
 endif()
                                             
 # run tests
-add_custom_target(run_tests ALL
-                  COMMAND "$<TARGET_FILE:unit_tests>"
-                  DEPENDS unit_tests
-                  COMMENT "Running unit_tests")
+#add_custom_target(run_tests ALL
+#                  COMMAND "$<TARGET_FILE:unit_tests>"
+#                  DEPENDS unit_tests
+#                  COMMENT "Running unit_tests")
                   
-set_target_properties(run_tests PROPERTIES 
-                                FOLDER "Testing")
+              #set_target_properties(run_tests PROPERTIES 
+              #                  FOLDER "Testing")
 
 add_subdirectory(plugin)
 

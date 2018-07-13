@@ -37,7 +37,6 @@ set(SOURCE_FILES main.cpp
                  misc/array_range_test.cpp
                  misc/string_view_test.cpp
                  misc/enum_flags_test.cpp
-                 misc/library_test.cpp
                  property/property_access_level_test.cpp
                  property/property_misc_test.cpp
                  property/property_class_inheritance.cpp
