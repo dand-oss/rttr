@@ -44,6 +44,15 @@ struct property_order_test_base
 
 };
 
+// RTTR_ENABLE incompatible with clang
+#define RTTR_ENABLE_OVERRIDE(...) \
+public:\
+    RTTR_INLINE rttr::type get_type() const override { return rttr::detail::get_type_from_instance(this); }  \
+    RTTR_INLINE void* get_ptr() override { return reinterpret_cast<void*>(this); } \
+    RTTR_INLINE rttr::detail::derived_info get_derived_info() override { return {reinterpret_cast<void*>(this), rttr::detail::get_type_from_instance(this)}; } \
+    using base_class_list = TYPE_LIST(__VA_ARGS__);
+
+
 struct property_order_test_derived : property_order_test_base
 {
     property_order_test_derived()
@@ -53,7 +62,7 @@ struct property_order_test_derived : property_order_test_base
 
     std::string _whoami ;
 
-    RTTR_ENABLE(property_order_test_base)
+    RTTR_ENABLE_OVERRIDE(property_order_test_base)
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////

@@ -43,6 +43,16 @@ struct method_order_test_base
 
 };
 
+
+// RTTR_ENABLE incompatible with clang
+#define RTTR_ENABLE_OVERRIDE(...) \
+public:\
+    RTTR_INLINE rttr::type get_type() const override { return rttr::detail::get_type_from_instance(this); }  \
+    RTTR_INLINE void* get_ptr() override { return reinterpret_cast<void*>(this); } \
+    RTTR_INLINE rttr::detail::derived_info get_derived_info() override { return {reinterpret_cast<void*>(this), rttr::detail::get_type_from_instance(this)}; } \
+    using base_class_list = TYPE_LIST(__VA_ARGS__);
+
+
 struct method_order_test_derived : method_order_test_base
 {
     method_order_test_derived() = default ;
@@ -51,7 +61,7 @@ struct method_order_test_derived : method_order_test_base
     std::string whoami() { return "I am a non-virtual derived method with same name" ; }
     std::string vwhoami() override { return "I am a virtual derived method with same name" ; }
 
-    RTTR_ENABLE(method_order_test_base)
+    RTTR_ENABLE_OVERRIDE(method_order_test_base)
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
