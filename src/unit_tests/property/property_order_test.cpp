@@ -79,53 +79,51 @@ RTTR_REGISTRATION
 
 // approach 1 looks up the "property instance"
 // and gets the value from the property
-template<class TT>
 std::string rttr_prop_approach1(
-        TT& inst,
-        const std::string prop_name )
+        const rttr::instance& vinst,
+        const rttr::string_view& prop_name )
 {
-    const auto& inst_t = type::get<TT>();
+    const auto& inst_t = vinst.get_type();
 
     // find property
     const auto& prop = inst_t.get_property(prop_name);
     REQUIRE(prop.is_valid() == true);
 
     // get value from property
-    variant&& iam_var = prop.get_value(inst);
+    const auto& iam_var = prop.get_value(vinst);
     REQUIRE(iam_var.is_valid() == true);
     REQUIRE(iam_var.is_type<std::string>() == true) ;
 
-    return iam_var.get_value<std::string&>();
+    return iam_var.get_value<std::string>();
 }
 
 // approach 2 gets the property value from rttr::type
-template<class TT>
 std::string rttr_prop_approach2(
-        TT& inst,
-        const std::string prop_name )
+        const rttr::instance& vinst,
+        const rttr::string_view& prop_name )
 {
-    const auto& inst_t = type::get<TT>();
+    const auto& inst_t = vinst.get_type();
 
     // get_value via type
-    variant&& iam_var = inst_t.get_property_value(prop_name, inst);
+    const auto& iam_var = inst_t.get_property_value(prop_name, vinst);
     REQUIRE(iam_var.is_valid() == true);
     REQUIRE(iam_var.is_type<std::string>() == true) ;
 
-    return iam_var.get_value<std::string&>();
+    return iam_var.get_value<std::string>();
 }
 
 template<class TT>
 void check_prop_order1()
 {
     TT inst;
-    REQUIRE( inst._whoami == rttr_prop_approach1<TT>(inst, "whoami") ) ;
+    REQUIRE( inst._whoami == rttr_prop_approach1(inst, "whoami") ) ;
 }
 
 template<class TT>
 void check_prop_order2()
 {
     TT inst;
-    REQUIRE( inst._whoami == rttr_prop_approach2<TT>(inst, "whoami") ) ;
+    REQUIRE( inst._whoami == rttr_prop_approach2(inst, "whoami") ) ;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
