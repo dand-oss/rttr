@@ -43,7 +43,6 @@ struct method_order_test_base
 
 };
 
-
 // RTTR_ENABLE incompatible with clang
 #define RTTR_ENABLE_OVERRIDE(...) \
 public:\
@@ -78,64 +77,65 @@ RTTR_REGISTRATION
         ;
 }
 
-// approach 1 looks up the "method instance" without considering argument type and invoke the registered function()
-template<class TT>
+// approach 1 looks up the "method instance"
+// without considering argument type
+// then invokes the function
 std::string rttr_invoke_approach1(
-        TT& inst,
-        const std::string& meth_name) {
+        const rttr::instance& vinst,
+        const rttr::string_view& meth_name) {
 
-    const auto& inst_t = type::get<TT>();
+    const auto& inst_t = vinst.get_type();
 
     // find method
     const auto& meth = inst_t.get_method(meth_name);
     REQUIRE(meth.is_valid() == true);
 
     // invoke via method
-    variant&& iam_var = meth.invoke(inst);
+    const auto& iam_var = meth.invoke(vinst);
     REQUIRE(iam_var.is_valid() == true);
     REQUIRE(iam_var.is_type<std::string>() == true) ;
-    return iam_var.get_value<std::string&>();
+
+    return iam_var.get_value<std::string>();
 }
 
-// approach 2 looks invokes the method via rttr::type
-// different code - range based for loop
-template<class TT>
+// approach 2 invokes the method via rttr::type
+// different rttr code - range based for loop
 std::string rttr_invoke_approach2(
-        TT& inst,
-        const std::string& meth_name) {
+        const rttr::instance& vinst,
+        const rttr::string_view& meth_name) {
 
-    const auto& inst_t = type::get<TT>();
+    const auto& inst_t = vinst.get_type();
 
     // invoke via type
-    variant&& iam_var = inst_t.invoke(meth_name, inst, {});
+    const auto& iam_var = inst_t.invoke(meth_name, vinst, {});
     REQUIRE(iam_var.is_valid() == true);
     REQUIRE(iam_var.is_type<std::string>() == true) ;
 
-    return iam_var.get_value<std::string&>();
+    return iam_var.get_value<std::string>();
 }
 
 template<class TT>
 void check_nonvirt_meth_order1() {
     TT inst;
-    REQUIRE(inst.whoami() == rttr_invoke_approach1<TT>(inst, "whoami"));
+    REQUIRE(inst.whoami() == rttr_invoke_approach1(inst, "whoami"));
 }
 
 template<class TT>
 void check_virt_meth_order1() {
     TT inst;
-    REQUIRE(inst.vwhoami() == rttr_invoke_approach1<TT>(inst, "vwhoami"));
+    REQUIRE(inst.vwhoami() == rttr_invoke_approach1(inst, "vwhoami"));
 }
 
 template<class TT>
 void check_nonvirt_meth_order2() {
     TT inst;
-    REQUIRE(inst.whoami() == rttr_invoke_approach2<TT>(inst, "whoami"));
+    REQUIRE(inst.whoami() == rttr_invoke_approach2(inst, "whoami"));
 }
 
 template<class TT>
 void check_virt_meth_order2() {
     TT inst;
-    REQUIRE(inst.vwhoami() == rttr_invoke_approach2<TT>(inst, "vwhoami"));
+    REQUIRE(inst.vwhoami() == rttr_invoke_approach2(inst, "vwhoami"));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
