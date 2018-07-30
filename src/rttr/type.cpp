@@ -317,9 +317,9 @@ method type::get_method(string_view name, const std::vector<type>& type_list) co
     const auto raw_t = get_raw_type();
 
     const auto& methvec = raw_t.m_type_data->get_class_data().m_methods;
-    for (auto mit = methvec.crbegin() ; mit != methvec.crend() ; mit++)
+    for (auto mit = methvec.crbegin() ; mit != methvec.crend() ; ++mit)
     {
-        const auto meth = *mit ;
+        const auto& meth = *mit ;
         if ( meth.get_name() == name &&
              detail::compare_with_type_list::compare(meth.get_parameter_infos(), type_list))
         {
@@ -437,7 +437,7 @@ variant type::invoke(string_view name, instance obj, std::vector<argument> args)
 {
     const auto raw_t = get_raw_type();
     const auto& methvec = raw_t.m_type_data->get_class_data().m_methods;
-    for (auto mit = methvec.crbegin() ; mit != methvec.crend() ; mit++)
+    for (auto mit = methvec.crbegin() ; mit != methvec.crend() ; ++mit)
     {
         const auto& meth = *mit ;
         if ( meth.get_name() == name &&
