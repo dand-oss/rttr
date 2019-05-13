@@ -361,6 +361,24 @@ array_range<method> type::get_methods() const RTTR_NOEXCEPT
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+array_range<method> type::get_methods(string_view name) const RTTR_NOEXCEPT
+{
+    const auto raw_t = get_raw_type();
+    auto& vec = raw_t.m_type_data->m_class_data.m_methods;
+    return vec.empty()
+        ? array_range<method>()
+        : array_range<method>(
+            vec.data(),
+            vec.size(),
+            detail::default_predicate<method>(
+                [name](const auto& meth) {
+                    return meth.get_name() == name;
+                })
+            );
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 array_range<method> type::get_methods(filter_items filter) const RTTR_NOEXCEPT
 {
     const auto raw_t = get_raw_type();
