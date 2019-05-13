@@ -862,6 +862,7 @@ class RTTR_API type
          * \return A range of methods.
          */
         array_range<method> get_methods() const RTTR_NOEXCEPT;
+        array_range<method> get_methods(string_view name) const RTTR_NOEXCEPT;
 
         /*!
          * \brief Returns a range of all registered methods for this type,
