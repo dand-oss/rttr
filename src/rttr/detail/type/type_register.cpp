@@ -48,6 +48,18 @@
 
 #include <set>
 
+#ifdef _WIN32
+    #define DEFSTREAMS_API __declspec(dllimport)
+#else
+    #define DEFSTREAMS_API
+#endif
+
+// global output streams: defined from the get-go (cout is not)
+extern DEFSTREAMS_API std::streambuf* dbg_out_buf ; // write to multiple debug
+extern DEFSTREAMS_API std::ostream* ofa; // audit.out
+extern DEFSTREAMS_API std::ostream* ofd; // debug.out, fdebug
+extern DEFSTREAMS_API std::ostream* ofw; // debug window, cout, cerr, clog
+
 using namespace std;
 
 namespace rttr
@@ -505,7 +517,21 @@ type_data* type_register_private::register_name_if_neccessary(type_data* info)
 
 void type_register_private::register_base_class_info(type_data* info)
 {
+    static int buzzer ;
+    std::cout << buzzer++ << " RTTR register_type " << info->name << std::endl ;
+    const std::string checkme("classaUnit_O_Matic") ;
+    if ( checkme == info->name ) {
+        std::cout << "Got " << checkme << std::endl ;
+    }
     auto base_classes = info->get_base_types(true);
+
+    std::cout << base_classes.size() << " bases of " << info->name << std::endl ;
+    auto ii = 0 ;
+    for (const auto& t : base_classes)
+    {
+        const auto& tdata = t.m_base_type.m_type_data ;
+        std::cout << ii++ << " base " << tdata->name << std::endl ;
+    }
 
     // remove double entries; can only be happen for virtual inheritance case
     set<type> double_entries;
@@ -555,8 +581,23 @@ void type_register_private::register_base_class_info(type_data* info)
 
 type_data* type_register_private::register_type(type_data* info) RTTR_NOEXCEPT
 {
+    static int buzzer ;
+    std::cout << buzzer++ << " RTTR register_type " << info->name << std::endl ;
+    const std::string checkme("classaUnit_O_Matic") ;
+    if ( checkme == info->name ) {
+        std::cout << "Got " << checkme << std::endl ;
+        std::cout << "IGNORING BASES!!!!! " << std::endl ;
+    }
     // this will register the base types
-    info->get_base_types(true);
+    auto base_classes = info->get_base_types(true);
+
+    std::cout << base_classes.size() << " bases of " << info->name << std::endl ;
+    auto ii = 0 ;
+    for (const auto& t : base_classes)
+    {
+        const auto& tdata = t.m_base_type.m_type_data ;
+        std::cout << ii++ << " base " << tdata->name << std::endl ;
+    }
 
     using namespace detail;
 
