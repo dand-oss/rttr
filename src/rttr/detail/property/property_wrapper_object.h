@@ -79,6 +79,12 @@ class property_wrapper<object_ptr, Declaring_Typ, C*, void, Acc_Level, return_as
             return m_accessor;
         }
 
+        template<class TT>
+        TT* get_address(instance& object) const
+        {
+            return static_cast<TT*>(get_address());
+        }
+
         bool set_address(instance& object, void* val) const
         {
             m_accessor = val ;
@@ -135,6 +141,10 @@ class property_wrapper<object_ptr, Declaring_Typ, C*, void, Acc_Level, return_as
         {
             return m_accessor;
         }
+
+        template<class TT>
+        TT* get_address(instance& object) const
+        { return static_cast<TT*>(get_address()) ; }
 
         bool set_address(instance& object, void* val) const
         {
@@ -203,6 +213,10 @@ class property_wrapper<object_ptr, Declaring_Typ, C*, void, Acc_Level, return_as
             return m_accessor;
         }
 
+        template<class TT>
+        TT* get_address(instance& object) const
+        { return static_cast<TT*>(get_address()) ; }
+
         bool set_address(instance& object, void* val) const
         {
             m_accessor = val ;
@@ -259,6 +273,10 @@ class property_wrapper<object_ptr, Declaring_Typ, C*, void, Acc_Level, return_as
         {
             return m_accessor;
         }
+
+        template<class TT>
+        TT* get_address(instance& object) const
+        { return static_cast<TT*>(get_address()) ; }
 
         bool set_address(instance& object, void* val) const
         {
@@ -322,6 +340,10 @@ class property_wrapper<object_ptr, Declaring_Typ, C*, void, Acc_Level, get_as_re
             return m_accessor;
         }
 
+        template<class TT>
+        TT* get_address(instance& object) const
+        { return static_cast<TT*>(get_address()) ; }
+
         bool set_address(instance& object, void* val) const
         {
             m_accessor = val ;
@@ -378,6 +400,10 @@ class property_wrapper<object_ptr, Declaring_Typ, C*, void, Acc_Level, get_as_re
         {
             return m_accessor;
         }
+
+        template<class TT>
+        TT* get_address(instance& object) const
+        { return static_cast<TT*>(get_address()) ; }
 
         bool set_address(instance& object, void*) const
         {
