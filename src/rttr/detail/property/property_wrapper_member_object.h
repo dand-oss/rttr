@@ -87,6 +87,10 @@ class property_wrapper<member_object_ptr, Declaring_Typ, A(C::*), void, Acc_Leve
                 return nullptr;
         }
 
+        template<class TT>
+        TT* get_address(instance& object) const
+        { return static_cast<TT*>(get_address()) ; }
+
         // let external libraries do unsafe things
         bool set_address(instance& object, void* val) const
         {
@@ -156,6 +160,10 @@ class property_wrapper<member_object_ptr, Declaring_Typ, A(C::*), void, Acc_Leve
             else
                 return nullptr;
         }
+
+        template<class TT>
+        TT* get_address(instance& object) const
+        { return static_cast<TT*>(get_address()) ; }
 
         // let external libraries do unsafe things
         bool set_address(instance& object, void* val) const
@@ -237,6 +245,10 @@ class property_wrapper<member_object_ptr, Declaring_Typ, A(C::*), void, Acc_Leve
                 return nullptr;
         }
 
+        template<class TT>
+        TT* get_address(instance& object) const
+        { return static_cast<TT*>(get_address()) ; }
+
         // let external libraries do unsafe things
         bool set_address(instance& object, void* val) const
         {
@@ -307,6 +319,10 @@ class property_wrapper<member_object_ptr, Declaring_Typ, A(C::*), void, Acc_Leve
             else
                 return nullptr;
         }
+
+        template<class TT>
+        TT* get_address(instance& object) const
+        { return static_cast<TT*>(get_address()) ; }
 
         // let external libraries do unsafe things
         bool set_address(instance& object, void* val) const
@@ -384,6 +400,10 @@ class property_wrapper<member_object_ptr, Declaring_Typ, A(C::*), void, Acc_Leve
                 return nullptr;
         }
 
+        template<class TT>
+        TT* get_address(instance& object) const
+        { return static_cast<TT*>(get_address()) ; }
+
         // let external libraries do unsafe things
         bool set_address(instance& object, void* val) const
         {
@@ -454,6 +474,10 @@ class property_wrapper<member_object_ptr, Declaring_Typ, A(C::*), void, Acc_Leve
             else
                 return nullptr;
         }
+
+        template<class TT>
+        TT* get_address(instance& object) const
+        { return static_cast<TT*>(get_address()) ; }
 
         // let external libraries do unsafe things
         bool set_address(instance& object, void* val) const
