@@ -121,10 +121,11 @@ public:
     static void register_reg_manager(registration_manager* manager);
     static void unregister_reg_manager(registration_manager* manager);
 
-
     static type_data* register_type(type_data* info) RTTR_NOEXCEPT;
     static void unregister_type(type_data* info) RTTR_NOEXCEPT;
     static bool register_visit_type_func(type& t, visit_type_func) RTTR_NOEXCEPT;
+
+    static std::string get_registered_name(const std::string& type_name) RTTR_NOEXCEPT ;
 
 private:
 

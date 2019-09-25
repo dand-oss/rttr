@@ -135,7 +135,6 @@ struct RTTR_LOCAL type_data
     type_data* array_raw_type;
 
     std::string name {"uninit"} ;
-    std::string registered_name { "uninit"};
     string_view type_name;
 
     std::size_t get_sizeof;
@@ -308,7 +307,6 @@ RTTR_LOCAL std::unique_ptr<type_data> make_type_data()
                             array_raw_type<T>::get_type().m_type_data,
 
                             ::rttr::detail::get_type_name<T>().to_string(),
-                            raw_type_info<T>::get_type().m_type_data->registered_name,
                             ::rttr::detail::get_type_name<T>(),
 
                             get_size_of<T>::value(),

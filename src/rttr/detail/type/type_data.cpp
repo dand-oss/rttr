@@ -40,7 +40,6 @@ static type_data& get_invalid_type_data_impl() RTTR_NOEXCEPT
     static type_data instance{ nullptr, nullptr,
                                nullptr,
                                "",  // must be empty
-                               "unregistered",
                                string_view(),
                                0, 0,
                                &create_invalid_variant_policy::create_variant,

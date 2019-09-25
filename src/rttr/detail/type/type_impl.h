@@ -164,7 +164,7 @@ RTTR_INLINE string_view type::get_name() const RTTR_NOEXCEPT
 
 RTTR_INLINE std::string type::get_registered_name() const RTTR_NOEXCEPT
 {
-    return m_type_data->registered_name;
+    return detail::type_register::get_registered_name(m_type_data->name);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

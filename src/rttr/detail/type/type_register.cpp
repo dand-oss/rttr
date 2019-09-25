@@ -343,6 +343,13 @@ void type_register::unregister_type(type_data* info) RTTR_NOEXCEPT
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+std::string type_register::get_registered_name(const std::string& type_name) RTTR_NOEXCEPT
+{
+    return type_register_private::get_instance().get_registered_name(type_name);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 bool type_register::register_visit_type_func(type& t, visit_type_func func) RTTR_NOEXCEPT
 {
     t.m_type_data->visit_type = func;
@@ -496,6 +503,7 @@ type_data* type_register_private::register_name_if_neccessary(type_data* info)
     m_orig_name_to_id.insert(std::make_pair(info->type_name, type(info)));
     info->name = derive_name(type(info));
     m_custom_name_to_id.insert(std::make_pair(info->name, type(info)));
+    m_orig_to_custom_name.insert(std::make_pair(std::string(info->type_name), std::string(info->name)));
 
     m_type_list.emplace_back(type(info));
     return nullptr;
@@ -635,7 +643,24 @@ void type_register_private::unregister_type(type_data* info) RTTR_NOEXCEPT
         remove_base_types_from_derived_classes(obj_t, info->m_class_data.m_derived_types);
         m_orig_name_to_id.erase(info->type_name);
         m_custom_name_to_id.erase(info->name);
+        m_orig_to_custom_name.erase(info->name);
     }
+}
+
+std::string type_register_private::get_registered_name(const std::string& type_name) RTTR_NOEXCEPT
+{
+    std::string reg_name(type_name) ;
+
+    // get the map
+    const auto& map = get_orig_to_custom_name() ;
+
+    // find the original type
+    const auto& iter = map.find(type_name);
+    if ( iter !=  map.end() ) {
+        reg_name =  *iter ;
+    }
+
+    return reg_name;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -680,14 +705,17 @@ void type_register_private::update_custom_name(std::string new_name, const type&
 {
     std::lock_guard<std::mutex> lock(m_mutex);
 
+    auto& orig_name = t.m_type_data->type_name;
     auto& type_name = t.m_type_data->name;
 
     if (new_name != type_name)
     {
         m_custom_name_to_id.erase(type_name);
+        m_orig_to_custom_name.erase(std::string(orig_name));
 
         type_name = std::move(new_name);
         m_custom_name_to_id.insert(std::make_pair(type_name, t));
+        m_orig_to_custom_name.insert(std::make_pair(std::string(orig_name), type_name));
     }
 }
 
@@ -725,9 +753,6 @@ void type_register_private::register_custom_name(type& t, string_view custom_nam
         return;
 
     update_custom_name(custom_name.to_string(), t);
-
-    // put the custom name in the type to registered
-    t.m_type_data->registered_name = std::string(custom_name) ;
 
     // we have to make a copy of the list, because we also perform an insertion with 'update_custom_name'
     const auto& tmp_type_list = m_custom_name_to_id.value_data();
@@ -1127,6 +1152,13 @@ flat_map<string_view, type>& type_register_private::get_orig_name_to_id()
 flat_map<std::string, type, hash>& type_register_private::get_custom_name_to_id()
 {
     return m_custom_name_to_id;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////
+
+flat_map<std::string, std::string, hash>& type_register_private::get_orig_to_custom_name()
+{
+    return m_orig_to_custom_name;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////

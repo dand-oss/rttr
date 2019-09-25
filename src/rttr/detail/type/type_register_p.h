@@ -75,6 +75,7 @@ public:
 
     type_data* register_type(type_data* info) RTTR_NOEXCEPT;
     void unregister_type(type_data* info) RTTR_NOEXCEPT;
+    std::string get_registered_name(const std::string& type_name) RTTR_NOEXCEPT;
 
     bool register_constructor(const constructor_wrapper_base* ctor);
     bool register_destructor(const destructor_wrapper_base* dtor);
@@ -104,6 +105,7 @@ public:
     std::vector<type>& get_type_storage();
     flat_map<string_view, type>& get_orig_name_to_id();
     flat_map<std::string, type, hash>& get_custom_name_to_id();
+    flat_map<std::string, std::string, hash>& get_orig_to_custom_name();
 
     /////////////////////////////////////////////////////////////////////////////////////
 
@@ -214,6 +216,7 @@ private:
     std::set<registration_manager*>                             m_registration_manager_list;
 
     flat_map<std::string, type, hash>                           m_custom_name_to_id;
+    flat_map<std::string, std::string, hash>                    m_orig_to_custom_name;
     flat_map<string_view, type>                                 m_orig_name_to_id;
     std::vector<type>                                           m_type_list;
     std::vector<type_data*>                                     m_type_data_storage;
