@@ -162,6 +162,13 @@ RTTR_INLINE string_view type::get_name() const RTTR_NOEXCEPT
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+RTTR_INLINE std::string type::get_registered_name() const RTTR_NOEXCEPT
+{
+    return m_type_data->registered_name;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 RTTR_INLINE string_view type::get_full_name() const RTTR_NOEXCEPT
 {
     return m_type_data->type_name;

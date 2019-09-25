@@ -726,6 +726,9 @@ void type_register_private::register_custom_name(type& t, string_view custom_nam
 
     update_custom_name(custom_name.to_string(), t);
 
+    // put the custom name in the type to registered
+    t.m_type_data->registered_name = std::string(custom_name) ;
+
     // we have to make a copy of the list, because we also perform an insertion with 'update_custom_name'
     const auto& tmp_type_list = m_custom_name_to_id.value_data();
     for (auto& tt : tmp_type_list)

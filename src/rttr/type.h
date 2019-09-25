@@ -256,6 +256,13 @@ class RTTR_API type
         RTTR_INLINE string_view get_name() const RTTR_NOEXCEPT;
 
         /*!
+         * \brief Returns name the type in the registration system
+         *
+         * \return The registered type name.
+         */
+        RTTR_INLINE std::string get_registered_name() const RTTR_NOEXCEPT;
+
+        /*!
          * \brief Returns true if this type is valid, that means the type holds valid data to a type.
          *
          * \return True if this type is valid, otherwise false.
