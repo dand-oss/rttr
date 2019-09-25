@@ -129,7 +129,7 @@ bool type_register::register_destructor(destructor_wrapper_base* dtor)
 
 bool type_register::register_enumeration(enumeration_wrapper_base* enum_data)
 {
-    const auto t = enum_data->get_type();
+    const auto& t = enum_data->get_type();
     t.m_type_data->enum_wrapper = enum_data;
     return true;
 }
@@ -138,7 +138,7 @@ bool type_register::register_enumeration(enumeration_wrapper_base* enum_data)
 
 bool type_register::unregister_enumeration(enumeration_wrapper_base* enum_data)
 {
-    const auto t = enum_data->get_type();
+    const auto& t = enum_data->get_type();
     t.m_type_data->enum_wrapper = nullptr; // FIXME: possible unsafe: m_type_data can be invalid
     return true;
 }
@@ -213,7 +213,7 @@ bool type_register::unregister_less_than_comparator(const type_comparator_base* 
 void type_register::register_base_class(const type& derived_type, const base_class_info& base_info)
 {
     auto& class_data = derived_type.m_type_data->m_class_data;
-    auto itr = std::find_if(class_data.m_base_types.begin(), class_data.m_base_types.end(),
+    const auto& itr = std::find_if(class_data.m_base_types.begin(), class_data.m_base_types.end(),
     [base_info](const type& t)
     {
         return (t == base_info.m_base_type);
@@ -252,7 +252,7 @@ void type_register::register_base_class(const type& derived_type, const base_cla
                    std::back_inserter(class_data.m_conversion_list),
                    [](const sorted_pair& item)-> rttr_cast_func { return item.second; });
 
-    auto r_type = base_info.m_base_type.get_raw_type();
+    const auto& r_type = base_info.m_base_type.get_raw_type();
     r_type.m_type_data->m_class_data.m_derived_types.push_back(type(derived_type.m_type_data));
 }
 
@@ -573,7 +573,7 @@ type_data* type_register_private::register_type(type_data* info) RTTR_NOEXCEPT
 
     // when a base class type has class items, but the derived one not,
     // we update the derived class item list
-    const auto t = type(info);
+    const auto& t = type(info);
     update_class_list(t, &class_data::m_properties);
     update_class_list(t, &class_data::m_methods);
 
@@ -727,13 +727,13 @@ void type_register_private::register_custom_name(type& t, string_view custom_nam
     update_custom_name(custom_name.to_string(), t);
 
     // we have to make a copy of the list, because we also perform an insertion with 'update_custom_name'
-    auto tmp_type_list = m_custom_name_to_id.value_data();
+    const auto& tmp_type_list = m_custom_name_to_id.value_data();
     for (auto& tt : tmp_type_list)
     {
         if (tt == t || tt.get_raw_type() == tt)
             continue;
 
-        auto new_name = derive_name(tt);
+        const auto& new_name = derive_name(tt);
         update_custom_name(new_name, tt);
     }
 
@@ -750,7 +750,7 @@ void type_register_private::register_custom_name(type& t, string_view custom_nam
 
 bool type_register_private::register_constructor(const constructor_wrapper_base* ctor)
 {
-    const auto t = ctor->get_declaring_type();
+    const auto& t = ctor->get_declaring_type();
     auto& class_data = t.m_type_data->m_class_data;
     class_data.m_ctors.emplace_back(create_item<::rttr::constructor>(ctor));
     return true;
@@ -762,7 +762,7 @@ bool type_register_private::register_constructor(const constructor_wrapper_base*
 
 bool type_register_private::register_destructor(const destructor_wrapper_base* dtor)
 {
-    const auto t = dtor->get_declaring_type();
+    const auto& t = dtor->get_declaring_type();
     auto& class_data = t.m_type_data->m_class_data;
 
     auto& dtor_type = class_data.m_dtor;
@@ -780,8 +780,8 @@ bool type_register_private::register_destructor(const destructor_wrapper_base* d
 
 bool type_register_private::register_property(const property_wrapper_base* prop)
 {
-    const auto t    = prop->get_declaring_type();
-    const auto name = prop->get_name();
+    const auto& t    = prop->get_declaring_type();
+    const auto& name = prop->get_name();
 
     auto& property_list = t.m_type_data->m_class_data.m_properties;
 
@@ -798,8 +798,8 @@ bool type_register_private::register_property(const property_wrapper_base* prop)
 
 bool type_register_private::register_global_property(const property_wrapper_base* prop)
 {
-    const auto t    = prop->get_declaring_type();
-    const auto name = prop->get_name();
+    const auto& t    = prop->get_declaring_type();
+    const auto& name = prop->get_name();
 
      if (t.get_global_property(name))
          return false;
@@ -827,9 +827,9 @@ bool type_register_private::unregister_global_property(const property_wrapper_ba
 
 bool type_register_private::register_method(const method_wrapper_base* meth)
 {
-    const auto t    = meth->get_declaring_type();
-    const auto name = meth->get_name();
-    auto m          = create_item<::rttr::method>(meth);
+    const auto& t    = meth->get_declaring_type();
+    const auto& name = meth->get_name();
+    const auto& m    = create_item<::rttr::method>(meth);
 
     if (get_type_method(t, name, convert_param_list(meth->get_parameter_infos())))
         return false;
@@ -844,9 +844,9 @@ bool type_register_private::register_method(const method_wrapper_base* meth)
 
 bool type_register_private::register_global_method(const method_wrapper_base* meth)
 {
-    const auto t    = meth->get_declaring_type();
-    const auto name = meth->get_name();
-    auto m          = create_item<::rttr::method>(meth);
+    const auto& t    = meth->get_declaring_type();
+    const auto& name = meth->get_name();
+    auto m           = create_item<::rttr::method>(meth);
 
     if (t.get_global_method(name, convert_param_list(meth->get_parameter_infos())))
         return false;
@@ -905,13 +905,13 @@ void type_register_private::update_class_list(const type& t, T item_ptr)
     auto& all_class_items = (t.m_type_data->m_class_data.*item_ptr);
 
     // update type "t" with all items from the base classes
-    auto item_range = get_items_for_type(t, all_class_items);
+    const auto& item_range = get_items_for_type(t, all_class_items);
     detail::remove_cv_ref_t<decltype(all_class_items)> item_vec(item_range.begin(), item_range.end());
     all_class_items.reserve(all_class_items.size() + 1);
     all_class_items.clear(); // this will not reduce the capacity, i.e. new memory allocation may not necessary
     for (const auto& base_type : t.get_base_classes())
     {
-        auto base_properties = get_items_for_type(base_type, base_type.m_type_data->m_class_data.*item_ptr);
+        const auto& base_properties = get_items_for_type(base_type, base_type.m_type_data->m_class_data.*item_ptr);
         if (base_properties.empty())
             continue;
 
@@ -934,7 +934,7 @@ void type_register_private::update_class_list(const type& t, T item_ptr)
 
 bool type_register_private::register_converter(const type_converter_base* converter)
 {
-    const auto t = converter->get_source_type();
+    const auto& t = converter->get_source_type();
 
     if (!t.is_valid())
         return false;
@@ -955,7 +955,7 @@ template<typename Container, typename Item>
 static bool remove_item(Container& container, Item& item)
 {
     using order = typename Container::value_type::order_by_id;
-    auto itr = std::lower_bound(container.begin(), container.end(),
+    const auto& itr = std::lower_bound(container.begin(), container.end(),
                                 item, order());
     if (itr != container.end())
     {
@@ -1019,7 +1019,7 @@ type_register_private::get_type_comparator_impl(const type& t,
  {
     using vec_value_type = data_container<const type_comparator_base*>;
     const auto id = t.get_id();
-    auto itr = std::lower_bound(comparator_list.cbegin(), comparator_list.cend(), id,
+    const auto& itr = std::lower_bound(comparator_list.cbegin(), comparator_list.cend(), id,
                                 vec_value_type::order_by_id());
     if (itr != comparator_list.cend() && itr->m_id == id)
         return itr->m_data;
@@ -1077,7 +1077,7 @@ bool type_register_private::register_comparator_impl(const type& t, const type_c
 
 variant type_register_private::get_metadata(const type& t, const variant& key)
 {
-    auto& meta_vec = t.m_type_data->get_metadata();
+    const auto& meta_vec = t.m_type_data->get_metadata();
     return get_metadata(key, meta_vec);
 }
 
