@@ -939,8 +939,8 @@ bool type_register_private::register_converter(const type_converter_base* conver
     if (!t.is_valid())
         return false;
 
-    if (get_converter(t, converter->m_target_type))
-        return false;
+    // ASI - last one wins, not first
+    erase_converter(t, converter->m_target_type) ;
 
     using vec_value_type = data_container<const type_converter_base*>;
     m_type_converter_list.push_back({t.get_id(), converter});
@@ -959,7 +959,8 @@ static bool remove_item(Container& container, Item& item)
                                 item, order());
     if (itr != container.end())
     {
-        if ((*itr).m_data == item)
+        const auto found = (*itr).m_data;
+        if (found == item)
         {
             container.erase(itr);
             return true;
@@ -995,6 +996,30 @@ const type_converter_base* type_register_private::get_converter(const type& sour
     }
 
     return nullptr;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////
+
+bool type_register_private::erase_converter(const type& source_type, const type& target_type)
+{
+    const auto src_id = source_type.get_id();
+    const auto target_id = target_type.get_id();
+    using vec_value_type = data_container<const type_converter_base*>;
+    auto itr = std::lower_bound(m_type_converter_list.cbegin(), m_type_converter_list.cend(),
+                                src_id, vec_value_type::order_by_id());
+    for (; itr != m_type_converter_list.cend(); ++itr)
+    {
+        auto& item = *itr;
+        if (item.m_id != src_id)
+            return false ; // type not found
+
+        if (item.m_data->m_target_type.get_id() == target_id) {
+            m_type_converter_list.erase(itr);
+            return true;
+        }
+    }
+
+    return false;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////
