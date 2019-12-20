@@ -118,6 +118,7 @@ public:
 
     /////////////////////////////////////////////////////////////////////////////////////
 
+    bool erase_converter(const type& source_type, const type& target_type);
     const type_converter_base* get_converter(const type& source_type, const type& target_type);
     const type_comparator_base* get_equal_comparator(const type& t);
     const type_comparator_base* get_less_than_comparator(const type& t);
