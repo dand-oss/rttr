@@ -1112,7 +1112,7 @@ class RTTR_API type
         template<typename T>
         static void register_less_than_comparator();
 
-    private:
+    //private:
 
         /*!
          * Constructs an empty and invalid type object.
