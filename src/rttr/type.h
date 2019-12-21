@@ -1115,7 +1115,7 @@ class RTTR_API type
         //! Creates a variant from the given argument data.
         RTTR_INLINE variant create_variant(const argument& data) const;
 
-    private:
+    //private:
 
         /*!
          * Constructs an empty and invalid type object.
