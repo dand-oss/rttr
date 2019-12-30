@@ -167,6 +167,15 @@ RTTR_INLINE const T& variant::get_wrapped_value() const
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+template<typename T>
+RTTR_INLINE const T& variant::deref_pointer() const
+{
+    using nonRef = detail::remove_cv_t<T>;
+    return *reinterpret_cast<const nonRef*>(get_ptr);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 RTTR_INLINE void* variant::get_ptr() const
 {
     void* value;
@@ -305,10 +314,15 @@ RTTR_INLINE bool variant::convert(T& value) const
     const type target_type = type::get<T>();
     if (source_type.is_wrapper() && !target_type.is_wrapper())
     {
-        variant var = extract_wrapped_value();
+        auto var = extract_wrapped_value();
         return var.convert<T>(value);
     }
-    else if (!source_type.is_wrapper() && target_type.is_wrapper() &&
+    if (source_type.is_pointer() && !target_type.is_pointer())
+    {
+        auto var = deref_pointer();
+        return var.convert<T>(value);
+    }
+    if (!source_type.is_wrapper() && target_type.is_wrapper() &&
              target_type.get_wrapped_type() == source_type)
     {
         variant var = create_wrapped_value(target_type);

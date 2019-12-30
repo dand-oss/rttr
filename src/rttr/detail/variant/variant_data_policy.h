@@ -137,7 +137,8 @@ enum class variant_policy_operation : uint8_t
     IS_NULLPTR,
     CONVERT,
     COMPARE_EQUAL,
-    COMPARE_LESS
+    COMPARE_LESS,
+    DEREF_POINTER
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -179,7 +180,7 @@ enable_if_t<is_copyable<Tp>::value &&
             is_wrapper<T>::value, variant> get_wrapped_value(T& value)
 {
     using raw_wrapper_type = remove_cv_t<remove_reference_t<T>>;
-    return variant(wrapper_mapper<raw_wrapper_type>::get(value));
+    return wrapper_mapper<raw_wrapper_type>::get(value);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -187,6 +188,43 @@ enable_if_t<is_copyable<Tp>::value &&
 template<typename T, typename Tp = decay_except_array_t<wrapper_mapper_t<T>>>
 enable_if_t<!is_copyable<Tp>::value ||
             !is_wrapper<T>::value, variant> get_wrapped_value(T&)
+{
+    return variant();
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+// is_reference_wrappper trait
+template<class TT>
+struct is_reference_wrapper : std::false_type {};
+
+template<class TT>
+struct is_reference_wrapper<std::reference_wrapper<TT>> : std::true_type{};
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+// TT*, not void* or std::reference_wrapper<TT>* where TT can be copy constructed
+template<class TT>
+enable_if_t<std::is_pointer<TT>::value
+        && std::is_copy_constructible<typename raw_type<TT>::type>::value
+        && !std::is_void<typename raw_type<TT>::type>::value
+        && !is_reference_wrapper<typename raw_type<TT>::type>::value,
+    variant> deref_pointer(TT& t_ptr)
+{
+    using raw_type = remove_cv_t<remove_reference_t<TT>>;
+    return *static_cast<raw_type>(t_ptr);
+    // return *t_ptr;
+    // return *raw_type::get_value(src_data);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+template<class TT>
+enable_if_t<!std::is_pointer<TT>::value
+        || !std::is_copy_constructible<typename raw_type<TT>::type>::value
+        || std::is_void<typename raw_type<TT>::type>::value
+        || is_reference_wrapper<typename raw_type<TT>::type>::value,
+    variant> deref_pointer(TT&)
 {
     return variant();
 }
@@ -368,6 +406,11 @@ struct variant_data_base_policy
                 {
                     return false;
                 }
+            }
+            case variant_policy_operation::DEREF_POINTER:
+            {
+                arg.get_value<variant>() = deref_pointer(Tp::get_value(src_data)) ;
+                break;
             }
         }
 
@@ -612,6 +655,7 @@ struct RTTR_API variant_data_policy_empty
             case variant_policy_operation::SWAP:
             case variant_policy_operation::EXTRACT_WRAPPED_VALUE:
             case variant_policy_operation::CREATE_WRAPPED_VALUE:
+            case variant_policy_operation::DEREF_POINTER:
             {
                 break;
             }
@@ -719,6 +763,7 @@ struct RTTR_API variant_data_policy_void
             case variant_policy_operation::CLONE:
             case variant_policy_operation::SWAP:
             case variant_policy_operation::EXTRACT_WRAPPED_VALUE:
+            case variant_policy_operation::DEREF_POINTER:
             {
                 break;
             }
@@ -885,6 +930,7 @@ struct RTTR_API variant_data_policy_nullptr_t
             case variant_policy_operation::GET_PTR:
             {
                 arg.get_value<void*>() = as_void_ptr(std::addressof(get_value(src_data)));
+                break;
             }
             case variant_policy_operation::GET_RAW_TYPE:
             {
@@ -950,6 +996,10 @@ struct RTTR_API variant_data_policy_nullptr_t
                 bool& ok            = std::get<2>(param);
                 ok = true;
                 return (lhs.is_nullptr() && !rhs.is_nullptr());
+            }
+            case variant_policy_operation::DEREF_POINTER:
+            {
+                break;
             }
         }
         return true;
