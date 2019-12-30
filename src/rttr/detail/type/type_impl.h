@@ -155,6 +155,13 @@ RTTR_INLINE type type::get_raw_array_type() const RTTR_NOEXCEPT
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+RTTR_INLINE type type::get_pointer_type() const RTTR_NOEXCEPT
+{
+    return type(m_type_data->pointer_type);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 RTTR_INLINE string_view type::get_name() const RTTR_NOEXCEPT
 {
     return m_type_data->name;

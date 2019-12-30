@@ -133,6 +133,7 @@ struct RTTR_LOCAL type_data
     type_data* raw_type_data;
     type_data* wrapped_type;
     type_data* array_raw_type;
+    type_data* pointer_type;
 
     std::string name;
     string_view type_name;
@@ -232,6 +233,22 @@ struct RTTR_LOCAL wrapper_type_info<T, false>
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+template<typename T, bool = !std::is_pointer<T>::value>
+struct RTTR_LOCAL pointer_type_info
+{
+    static RTTR_INLINE type get_type() RTTR_NOEXCEPT { return type::get<T*>(); }
+};
+
+/////////////////////////////////////////////////////////////////////////////////
+
+template<typename T>
+struct RTTR_LOCAL pointer_type_info<T, false>
+{
+    static RTTR_INLINE type get_type() RTTR_NOEXCEPT { return get_invalid_type(); }
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 template<typename Wrapper, typename Wrapped_Type>
 RTTR_LOCAL RTTR_INLINE void create_wrapper(const argument& arg, variant& var)
 {
@@ -302,8 +319,10 @@ RTTR_LOCAL std::unique_ptr<type_data> make_type_data()
                (
                         new type_data
                         {
-                            raw_type_info<T>::get_type().m_type_data, wrapper_type_info<T>::get_type().m_type_data,
+                            raw_type_info<T>::get_type().m_type_data,
+                            wrapper_type_info<T>::get_type().m_type_data,
                             array_raw_type<T>::get_type().m_type_data,
+                            pointer_type_info<T>::get_type().m_type_data, // DKD
 
                             ::rttr::detail::get_type_name<T>().to_string(), ::rttr::detail::get_type_name<T>(),
 

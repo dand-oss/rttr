@@ -301,6 +301,8 @@ class RTTR_API type
          */
         RTTR_INLINE type get_wrapped_type() const RTTR_NOEXCEPT;
 
+        RTTR_INLINE type get_pointer_type() const RTTR_NOEXCEPT;
+
         /*!
          * \brief Returns a type object for the given template type \a T.
          *
