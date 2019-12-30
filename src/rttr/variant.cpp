@@ -182,6 +182,15 @@ type variant::get_type() const
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+variant variant::deref_pointer() const
+{
+    variant var;
+    m_policy(detail::variant_policy_operation::DEREF_POINTER, m_data, var);
+    return var;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 variant variant::extract_wrapped_value() const
 {
     variant var;
@@ -287,6 +296,12 @@ bool variant::convert(const type& target_type, variant& target_var) const
     else if (source_type.is_wrapper() && !target_type.is_wrapper())
     {
         variant var = extract_wrapped_value();
+        ok = var.convert(target_type);
+        target_var = var;
+    }
+    else if (source_type.is_pointer() && !target_type.is_pointer())
+    {
+        variant var = deref_pointer();
         ok = var.convert(target_type);
         target_var = var;
     }

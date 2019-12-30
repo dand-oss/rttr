@@ -486,6 +486,9 @@ class RTTR_API variant
         template<typename T>
         const T& get_wrapped_value() const;
 
+        template<typename T>
+        const T& deref_pointer() const;
+
         /*!
          * \brief Extracts the wrapped value and copies its content into a new variant.
          *
@@ -510,6 +513,7 @@ class RTTR_API variant
          * \see type::is_wrapper()
          */
         variant extract_wrapped_value() const;
+        variant deref_pointer() const;
 
         /*!
          * \brief Returns `true` if the contained value can be converted to the given type \p T.
