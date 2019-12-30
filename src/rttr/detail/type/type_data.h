@@ -122,6 +122,7 @@ using create_wrapper_func  = void(*)(const argument& arg, variant& var);
 using get_metadata_func    = std::vector<metadata>&(*)(void);
 using get_class_data_func  = class_data&(*)(void);
 using visit_type_func      = void(*)(type_of_visit, visitor&, const type&);
+using type_func            = type (*)() ;
 
 } // end namespace impl
 
@@ -147,6 +148,7 @@ struct RTTR_LOCAL type_data
     impl::get_metadata_func    get_metadata;
     impl::create_wrapper_func  create_wrapper;
     impl::visit_type_func      visit_type;
+    impl::type_func            pointer_type;
 
     bool is_valid;
     RTTR_FORCE_INLINE bool type_trait_value(type_trait_infos type_trait) const RTTR_NOEXCEPT { return m_type_traits.test(static_cast<std::size_t>(type_trait)); }
@@ -231,6 +233,22 @@ struct RTTR_LOCAL wrapper_type_info<T, false>
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+template<typename T, bool = !std::is_pointer<T>::value>
+struct RTTR_LOCAL pointer_type_info
+{
+    static RTTR_INLINE type get_type() RTTR_NOEXCEPT { return type::get<T*>(); }
+};
+
+/////////////////////////////////////////////////////////////////////////////////
+
+template<typename T>
+struct RTTR_LOCAL pointer_type_info<T, false>
+{
+    static RTTR_INLINE type get_type() RTTR_NOEXCEPT { return get_invalid_type(); }
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 template<typename Wrapper, typename Wrapped_Type>
 RTTR_LOCAL RTTR_INLINE void create_wrapper(const argument& arg, variant& var)
 {
@@ -301,7 +319,8 @@ RTTR_LOCAL std::unique_ptr<type_data> make_type_data()
                (
                         new type_data
                         {
-                            raw_type_info<T>::get_type().m_type_data, wrapper_type_info<T>::get_type().m_type_data,
+                            raw_type_info<T>::get_type().m_type_data,
+                            wrapper_type_info<T>::get_type().m_type_data,
                             array_raw_type<T>::get_type().m_type_data,
 
                             ::rttr::detail::get_type_name<T>().to_string(), ::rttr::detail::get_type_name<T>(),
@@ -316,6 +335,7 @@ RTTR_LOCAL std::unique_ptr<type_data> make_type_data()
                             get_create_wrapper_func<T>(),
 
                             nullptr,
+                            pointer_type_info<T>::get_type, // DKD
                             true,
                             type_trait_value{ TYPE_TRAIT_TO_BITSET_VALUE(is_class) |
                                               TYPE_TRAIT_TO_BITSET_VALUE(is_enum) |
