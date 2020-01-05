@@ -53,7 +53,9 @@ variant::variant(const variant& other)
 variant::variant(variant&& other)
 :   m_policy(other.m_policy)
 {
+    // apply memory policy, using swap
     other.m_policy(detail::variant_policy_operation::SWAP, other.m_data, m_data);
+    // other is now empty m_policy
     other.m_policy = &detail::variant_data_policy_empty::invoke;
 }
 
@@ -112,9 +114,13 @@ variant& variant::operator=(const variant& other)
 
 variant& variant::operator=(variant&& other)
 {
+    // destroy myself
     m_policy(detail::variant_policy_operation::DESTROY, m_data, detail::argument_wrapper());
+    // swap in other
     other.m_policy(detail::variant_policy_operation::SWAP, other.m_data, m_data);
+    // apply other's memory policy
     m_policy = other.m_policy;
+    // Other now has empy m_policy
     other.m_policy = &detail::variant_data_policy_empty::invoke;
 
     return *this;
