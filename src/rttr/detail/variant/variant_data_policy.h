@@ -211,10 +211,11 @@ enable_if_t<std::is_pointer<TT>::value
         && !is_reference_wrapper<typename raw_type<TT>::type>::value,
     variant> deref_pointer(TT& t_ptr)
 {
-    using raw_type = remove_cv_t<remove_reference_t<TT>>;
-    return *static_cast<raw_type>(t_ptr);
+    using clean_type = remove_cv_t<remove_reference_t<TT>>;
+    // COPY CONSTRUCT into variant
+    return *static_cast<clean_type>(t_ptr);
     // return *t_ptr;
-    // return *raw_type::get_value(src_data);
+    // return *clean_type::get_value(src_data);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
