@@ -161,9 +161,9 @@ array_range<type> type::get_base_classes() const RTTR_NOEXCEPT
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-array_range<type> type::get_direct_base_classes() const RTTR_NOEXCEPT
+array_range<type_ref> type::get_direct_base_classes() const RTTR_NOEXCEPT
 {
-    return array_range<type>(
+    return array_range<type_ref>(
             m_type_data->m_class_data.m_direct_base_types.data(),
             m_type_data->m_class_data.m_direct_base_types.size());
 }

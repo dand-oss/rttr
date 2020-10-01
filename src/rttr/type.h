@@ -53,6 +53,8 @@ class instance;
 class argument;
 class visitor;
 
+using type_ref = std::reference_wrapper<type> ;
+
 template<typename Target_Type, typename Source_Type>
 Target_Type rttr_cast(Source_Type object) RTTR_NOEXCEPT;
 
@@ -578,7 +580,7 @@ class RTTR_API type
          *
          * \return A range of types.
          */
-        array_range<type> get_direct_base_classes() const RTTR_NOEXCEPT;
+        array_range<type_ref> get_direct_base_classes() const RTTR_NOEXCEPT;
 
         /*!
          * \brief Returns a range of all derived classes of this type.

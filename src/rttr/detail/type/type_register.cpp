@@ -541,7 +541,7 @@ void type_register_private::register_base_class_info(type_data* info)
     }
 
     // base classes which directly inherit
-    for (const auto& t : info->get_base_types(false) )
+    for (auto&& t : info->get_base_types(false) )
     {
         class_data.m_direct_base_types.emplace_back(t.m_base_type);
     }
