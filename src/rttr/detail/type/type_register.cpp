@@ -505,6 +505,7 @@ type_data* type_register_private::register_name_if_neccessary(type_data* info)
 
 void type_register_private::register_base_class_info(type_data* info)
 {
+    auto& class_data = info->m_class_data;
     auto base_classes(info->get_base_types(true));
 
     // remove double entries; can only be happen for virtual inheritance case
@@ -531,13 +532,18 @@ void type_register_private::register_base_class_info(type_data* info)
     {
         for (const auto& t : base_classes)
         {
-            auto& class_data = info->m_class_data;
             class_data.m_base_types.push_back(t.m_base_type);
             class_data.m_conversion_list.push_back(t.m_rttr_cast_func);
 
             auto r_type = t.m_base_type.get_raw_type();
             r_type.m_type_data->m_class_data.m_derived_types.push_back(type(info));
         }
+    }
+
+    // base classes which directly inherit
+    for (const auto& t : info->get_base_types(false) )
+    {
+        class_data.m_direct_base_types.emplace_back(t.m_base_type);
     }
 }
 
