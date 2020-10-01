@@ -587,7 +587,7 @@ class RTTR_API type
          *
          * \return A range of types.
          */
-        array_range<type_ref> get_direct_base_classes() const RTTR_NOEXCEPT;
+        std::vector<type_ref> get_direct_base_classes() const RTTR_NOEXCEPT;
 
         /*!
          * \brief Returns a range of all derived classes of this type.

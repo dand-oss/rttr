@@ -161,11 +161,13 @@ array_range<type> type::get_base_classes() const RTTR_NOEXCEPT
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-array_range<type_ref> type::get_direct_base_classes() const RTTR_NOEXCEPT
+std::vector<type_ref> type::get_direct_base_classes() const RTTR_NOEXCEPT
 {
-    return array_range<type_ref>(
-            m_type_data->m_class_data.m_direct_base_types.data(),
-            m_type_data->m_class_data.m_direct_base_types.size());
+    std::vector<type_ref> db_vec;
+    for ( auto&& t : m_type_data->get_base_types(false) ) {
+        db_vec.emplace_back(t.m_base_type); // transform...
+    }
+    return db_vec;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
