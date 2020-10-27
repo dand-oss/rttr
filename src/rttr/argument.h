@@ -113,7 +113,7 @@ public:
     RTTR_INLINE is_variant_ref_t<T> && get_value() const RTTR_NOEXCEPT;
 #endif
 
-private:
+//private:
     const void*         m_data;
     const variant*      m_variant;
     const rttr::type    m_type;
