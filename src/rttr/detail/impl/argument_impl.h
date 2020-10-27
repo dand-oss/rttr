@@ -36,31 +36,51 @@ namespace rttr
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-RTTR_INLINE argument::argument() RTTR_NOEXCEPT : m_data(nullptr), m_variant(nullptr), m_type(detail::get_invalid_type()) {}
+RTTR_INLINE argument::argument() RTTR_NOEXCEPT
+        : m_data(nullptr)
+        , m_variant(nullptr)
+        , m_type(detail::get_invalid_type())
+    {}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-RTTR_INLINE argument::argument(argument&& arg) RTTR_NOEXCEPT : m_data(arg.m_data), m_variant(arg.m_variant), m_type(arg.m_type) {}
+RTTR_INLINE argument::argument(argument&& arg) RTTR_NOEXCEPT
+    : m_data(arg.m_data)
+    , m_variant(arg.m_variant)
+    , m_type(arg.m_type)
+{}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-RTTR_INLINE argument::argument(const argument& other) RTTR_NOEXCEPT : m_data(other.m_data), m_variant(other.m_variant), m_type(other.m_type) {}
+RTTR_INLINE argument::argument(const argument& other) RTTR_NOEXCEPT
+    : m_data(other.m_data)
+    , m_variant(other.m_variant)
+    , m_type(other.m_type)
+{}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-RTTR_INLINE argument::argument(variant& var) RTTR_NOEXCEPT : m_data(var.get_ptr()), m_variant(&var), m_type(var.get_type()) {}
+RTTR_INLINE argument::argument(variant& var) RTTR_NOEXCEPT
+    : m_data(var.get_ptr())
+    , m_variant(&var)
+    , m_type(var.get_type())
+{}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-RTTR_INLINE argument::argument(const variant& var) RTTR_NOEXCEPT : m_data(var.get_ptr()),  m_variant(&var), m_type(var.get_type()) {}
+RTTR_INLINE argument::argument(const variant& var) RTTR_NOEXCEPT
+    : m_data(var.get_ptr())
+    , m_variant(&var)
+    , m_type(var.get_type())
+{}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 template<typename T, typename Tp>
 argument::argument(const T& data) RTTR_NOEXCEPT
-:   m_data(reinterpret_cast<const void*>(std::addressof(data))),
-    m_variant(nullptr),
-    m_type(rttr::type::get<T>())
+    : m_data(reinterpret_cast<const void*>(std::addressof(data)))
+    , m_variant(nullptr)
+    , m_type(rttr::type::get<T>())
 {
     static_assert(!std::is_same<instance, T>::value, "Don't use the argument class for forwarding an instance!");
 }
@@ -69,9 +89,9 @@ argument::argument(const T& data) RTTR_NOEXCEPT
 
 template<typename T, typename Tp>
 argument::argument(T& data) RTTR_NOEXCEPT
-:   m_data(reinterpret_cast<const void*>(std::addressof(data))),
-    m_variant(nullptr),
-    m_type(rttr::type::get<T>())
+    : m_data(reinterpret_cast<const void*>(std::addressof(data)))
+    , m_variant(nullptr)
+    , m_type(rttr::type::get<T>())
 {
     static_assert(!std::is_same<instance, T>::value, "Don't use the argument class for forwarding an instance!");
 }
