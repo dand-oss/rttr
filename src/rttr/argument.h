@@ -81,6 +81,7 @@ public:
     RTTR_INLINE argument(const argument& other) RTTR_NOEXCEPT;
     RTTR_INLINE argument(variant& var) RTTR_NOEXCEPT;
     RTTR_INLINE argument(const variant& var) RTTR_NOEXCEPT;
+    RTTR_INLINE argument(const void* ptr, const type& rtype) RTTR_NOEXCEPT;
 
     template<typename T, typename Tp = decay_arg_t<T>>
     RTTR_INLINE argument(const T& data) RTTR_NOEXCEPT;
@@ -89,7 +90,9 @@ public:
 
     RTTR_INLINE argument& operator=(const argument& other) RTTR_NOEXCEPT;
 
+    RTTR_INLINE const void* get_ptr() const RTTR_NOEXCEPT;
     RTTR_INLINE type get_type() const RTTR_NOEXCEPT;
+    RTTR_INLINE bool is_valid() const RTTR_NOEXCEPT;
 #ifdef DOXYGEN
     template<typename T>
     RTTR_INLINE bool is_type() const RTTR_NOEXCEPT;
