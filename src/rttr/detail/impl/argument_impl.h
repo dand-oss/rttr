@@ -68,6 +68,14 @@ RTTR_INLINE argument::argument(variant& var) RTTR_NOEXCEPT
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+RTTR_INLINE argument::argument(const void* ptr, const rttr::type& rtype) RTTR_NOEXCEPT
+    : m_data(ptr)
+    , m_variant(nullptr)
+    , m_type(rtype)
+{}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 RTTR_INLINE argument::argument(const variant& var) RTTR_NOEXCEPT
     : m_data(var.get_ptr())
     , m_variant(&var)
@@ -120,6 +128,20 @@ RTTR_INLINE argument::non_ptr_type<T> argument::is_type() const RTTR_NOEXCEPT
 RTTR_INLINE type argument::get_type() const RTTR_NOEXCEPT
 {
     return m_type;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+RTTR_INLINE const void * argument::get_ptr() const RTTR_NOEXCEPT
+{
+    return m_data;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+RTTR_INLINE bool argument::is_valid() const RTTR_NOEXCEPT
+{
+    return  m_type != detail::get_invalid_type() ;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
