@@ -76,6 +76,8 @@ struct wrapper_mapper<std::shared_ptr<T>>
 
 //////////////////////////////////////////////////////////////////////////////////////
 
+#pragma warning(push)
+#pragma warning(disable:4506)
 template<typename T>
 struct wrapper_mapper<std::reference_wrapper<T>>
 {
@@ -92,6 +94,7 @@ struct wrapper_mapper<std::reference_wrapper<T>>
         return type(t);
     }
 };
+#pragma warning(pop)
 
 //////////////////////////////////////////////////////////////////////////////////////
 
