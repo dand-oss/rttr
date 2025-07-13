@@ -76,8 +76,10 @@ struct wrapper_mapper<std::shared_ptr<T>>
 
 //////////////////////////////////////////////////////////////////////////////////////
 
+#ifndef __GNUC__
 #pragma warning(push)
 #pragma warning(disable:4506)
+#endif // __GNUC__
 template<typename T>
 struct wrapper_mapper<std::reference_wrapper<T>>
 {
@@ -94,7 +96,9 @@ struct wrapper_mapper<std::reference_wrapper<T>>
         return type(t);
     }
 };
+#ifndef __GNUC__
 #pragma warning(pop)
+#endif // __GNUC__
 
 //////////////////////////////////////////////////////////////////////////////////////
 
