@@ -53,6 +53,12 @@ endif ()
 # our little cmake helper functions
 include(utility)
 
+# could check for ninja...
+set(isPCH on)
+if(CMAKE_GENERATOR STREQUAL "Ninja Multi-Config")
+    set(isPCH off)
+endif()
+
 # set up option variable for cmake
 option(BUILD_RTTR_DYNAMIC "Build the dynamic/shared version of RTTR library" ON)
 option(BUILD_UNIT_TESTS "Build the unit tests of RTTR" OFF)
@@ -64,7 +70,7 @@ option(BUILD_EXAMPLES "Enable this to build the examples" OFF)
 option(BUILD_DOCUMENTATION "Enable this to build the documentation" OFF)
 option(BUILD_INSTALLER "Enable this to build the installer" ON)
 option(BUILD_PACKAGE "Enable this to build the installer" ON)
-option(USE_PCH "Use precompiled header files for compilation" ON)
+option(USE_PCH "Use precompiled header files for compilation" isPCH)
 option(CUSTOM_DOXYGEN_STYLE "Enable this option to use a custom doxygen style for HTML documentation; Otherwise the default will be used" OFF)
 option(BUILD_WEBSITE_DOCU "Enable this option to create the special docu for the website" OFF)
 
