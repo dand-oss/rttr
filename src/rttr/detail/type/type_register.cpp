@@ -139,7 +139,7 @@ bool type_register::register_enumeration(enumeration_wrapper_base* enum_data)
 bool type_register::unregister_enumeration(enumeration_wrapper_base* enum_data)
 {
     const auto& t = enum_data->get_type();
-    t.m_type_data->enum_wrapper = nullptr; // FIXME: possible unsafe: m_type_data can be invalid
+    t.m_type_data->enum_wrapper = nullptr;
     return true;
 }
 

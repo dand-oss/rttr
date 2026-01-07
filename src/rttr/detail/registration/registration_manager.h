@@ -151,8 +151,15 @@ class RTTR_LOCAL registration_manager
                 type_register::unregister_global_property(prop.get());
             for (auto& meth : m_global_methods)
                 type_register::unregister_global_method(meth.get());
-            for (auto& enum_ : m_enumerations)
-                type_register::unregister_enumeration(enum_.get());
+
+            // SKIP enumeration unregistration to prevent heap-use-after-free during static teardown.
+            // Multiple registration_manager objects (one per translation unit) are destroyed in
+            // undefined order. unregister_enumeration() accesses type_data->enum_wrapper, but
+            // type_data may have already been freed by another manager's destructor.
+            // The enum_wrapper is just a cache for type::get_enumeration(); during teardown,
+            // nothing should be calling get_enumeration() anyway.
+            // for (auto& enum_ : m_enumerations)
+            //     type_register::unregister_enumeration(enum_.get());
 
             for (auto& item : m_type_converters)
                 type_register::unregister_converter(item.get());
