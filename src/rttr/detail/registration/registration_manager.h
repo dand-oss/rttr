@@ -36,6 +36,11 @@
 #include "rttr/detail/constructor/constructor_wrapper_base.h"
 #include "rttr/detail/destructor/destructor_wrapper_base.h"
 #include "rttr/detail/enumeration/enumeration_wrapper_base.h"
+// type_converter_base / type_comparator_base must be complete: the inline ctor/dtor
+// instantiate the m_type_converters / m_type_*_cmps vector special members, which since
+// libstdc++ 15 (GCC 15) require a complete element type for unique_ptr's deleter.
+#include "rttr/detail/type/type_converter.h"
+#include "rttr/detail/type/type_comparator.h"
 
 #include <vector>
 #include <memory>
