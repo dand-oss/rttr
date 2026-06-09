@@ -693,7 +693,20 @@ class RTTR_API type
          *
          * \return Returns an instance of the given type.
          */
-        variant create(std::vector<argument> args = std::vector<argument>()) const;
+        variant create(std::vector<argument> args) const;
+
+        /*!
+         * \brief Creates an instance of the current type using its default constructor.
+         *
+         * \return Returns an instance of the given type.
+         *
+         * \remark This is a separate overload rather than a defaulted `args` argument so the
+         *         declaration does not force instantiation of `std::vector<argument>`'s special
+         *         members here, where `argument` is necessarily incomplete (it embeds a
+         *         `const type` member). Since libstdc++ 15 (GCC 15) those members require a
+         *         complete element type, which would otherwise break every TU including this header.
+         */
+        variant create() const;
 
         /*!
          * \brief Returns the corresponding destructor for this type.
