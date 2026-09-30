@@ -384,6 +384,9 @@ struct raw_addressof_impl<T, enable_if_t<(std::is_pointer<T>::value && pointer_c
 {
     static RTTR_INLINE raw_addressof_return_type_t<T> get(T& data)
     {
+        // a null pointer has no object to take the address of
+        if (data == nullptr)
+            return nullptr;
         return raw_addressof_impl< remove_pointer_t<T> >::get(*data);
     }
 };
