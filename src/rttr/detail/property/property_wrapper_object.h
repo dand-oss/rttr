@@ -76,19 +76,18 @@ class property_wrapper<object_ptr, Declaring_Typ, C*, void, Acc_Level, return_as
         // let external libraries do unsafe things
         void* get_address(instance& object) const
         {
-            return m_accessor;
+            return as_void_address(m_accessor);
         }
 
         template<class TT>
         TT* get_address(instance& object) const
         {
-            return static_cast<TT*>(get_address());
+            return static_cast<TT*>(get_address(object));
         }
 
         bool set_address(instance& object, void* val) const
         {
-            m_accessor = val ;
-            return true;
+            return property_accessor<C>::set_value(*m_accessor, *static_cast<C*>(val));
         }
 
     private:
@@ -139,17 +138,16 @@ class property_wrapper<object_ptr, Declaring_Typ, C*, void, Acc_Level, return_as
         // let external libraries do unsafe things
         void* get_address(instance& object) const
         {
-            return m_accessor;
+            return as_void_address(m_accessor);
         }
 
         template<class TT>
         TT* get_address(instance& object) const
-        { return static_cast<TT*>(get_address()) ; }
+        { return static_cast<TT*>(get_address(object)) ; }
 
         bool set_address(instance& object, void* val) const
         {
-            m_accessor = val ;
-            return true;
+            return false;
         }
 
     private:
@@ -210,17 +208,16 @@ class property_wrapper<object_ptr, Declaring_Typ, C*, void, Acc_Level, return_as
         // let external libraries do unsafe things
         void* get_address(instance& object) const
         {
-            return m_accessor;
+            return as_void_address(m_accessor);
         }
 
         template<class TT>
         TT* get_address(instance& object) const
-        { return static_cast<TT*>(get_address()) ; }
+        { return static_cast<TT*>(get_address(object)) ; }
 
         bool set_address(instance& object, void* val) const
         {
-            m_accessor = val ;
-            return true;
+            return property_accessor<C>::set_value(*m_accessor, *static_cast<C*>(val));
         }
 
     private:
@@ -271,17 +268,16 @@ class property_wrapper<object_ptr, Declaring_Typ, C*, void, Acc_Level, return_as
         // let external libraries do unsafe things
         void* get_address(instance& object) const
         {
-            return m_accessor;
+            return as_void_address(m_accessor);
         }
 
         template<class TT>
         TT* get_address(instance& object) const
-        { return static_cast<TT*>(get_address()) ; }
+        { return static_cast<TT*>(get_address(object)) ; }
 
         bool set_address(instance& object, void* val) const
         {
-            m_accessor = val ;
-            return true;
+            return false;
         }
 
     private:
@@ -337,17 +333,16 @@ class property_wrapper<object_ptr, Declaring_Typ, C*, void, Acc_Level, get_as_re
         // let external libraries do unsafe things
         void* get_address(instance& object) const
         {
-            return m_accessor;
+            return as_void_address(m_accessor);
         }
 
         template<class TT>
         TT* get_address(instance& object) const
-        { return static_cast<TT*>(get_address()) ; }
+        { return static_cast<TT*>(get_address(object)) ; }
 
         bool set_address(instance& object, void* val) const
         {
-            m_accessor = val ;
-            return true;
+            return property_accessor<C>::set_value(*m_accessor, *static_cast<C*>(val));
         }
 
     private:
@@ -398,14 +393,14 @@ class property_wrapper<object_ptr, Declaring_Typ, C*, void, Acc_Level, get_as_re
         // let external libraries do unsafe things
         void* get_address(instance& object) const
         {
-            return m_accessor;
+            return as_void_address(m_accessor);
         }
 
         template<class TT>
         TT* get_address(instance& object) const
-        { return static_cast<TT*>(get_address()) ; }
+        { return static_cast<TT*>(get_address(object)) ; }
 
-        bool set_address(instance& object, void*) const
+        bool set_address(instance& object, void* val) const
         {
             return false;
         }

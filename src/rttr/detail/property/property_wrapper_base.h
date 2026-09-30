@@ -94,6 +94,15 @@ class RTTR_API property_wrapper_base
         type        m_declaring_type;
 };
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+// The address of a property's object for get_address, whether or not the object is const.
+template<typename T>
+RTTR_INLINE void* as_void_address(T* address) RTTR_NOEXCEPT
+{
+    return const_cast<void*>(static_cast<const volatile void*>(address));
+}
+
 } // end namespace detail
 } // end namespace rttr
 

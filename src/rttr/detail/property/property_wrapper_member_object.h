@@ -82,21 +82,20 @@ class property_wrapper<member_object_ptr, Declaring_Typ, A(C::*), void, Acc_Leve
         void* get_address(instance& object) const
         {
             if (auto ptr = object.try_convert<C>())
-                return &(ptr->*m_acc);
+                return as_void_address(&(ptr->*m_acc));
             else
                 return nullptr;
         }
 
         template<class TT>
         TT* get_address(instance& object) const
-        { return static_cast<TT*>(get_address()) ; }
+        { return static_cast<TT*>(get_address(object)) ; }
 
         // let external libraries do unsafe things
         bool set_address(instance& object, void* val) const
         {
-            if (auto ptr = object.try_convert<C>()) {
-                return property_accessor<A>::set_value((ptr->*m_acc), *reinterpret_cast<A*>(val));
-            }
+            if (auto ptr = object.try_convert<C>())
+                return property_accessor<A>::set_value((ptr->*m_acc), *static_cast<A*>(val));
             else
                 return false;
         }
@@ -156,24 +155,19 @@ class property_wrapper<member_object_ptr, Declaring_Typ, A(C::*), void, Acc_Leve
         void* get_address(instance& object) const
         {
             if (auto ptr = object.try_convert<C>())
-                return &ptr->*m_acc;
+                return as_void_address(&(ptr->*m_acc));
             else
                 return nullptr;
         }
 
         template<class TT>
         TT* get_address(instance& object) const
-        { return static_cast<TT*>(get_address()) ; }
+        { return static_cast<TT*>(get_address(object)) ; }
 
         // let external libraries do unsafe things
         bool set_address(instance& object, void* val) const
         {
-            if (auto ptr = object.try_convert<C>()) {
-                return property_accessor<A>::set_value((ptr->*m_acc), *reinterpret_cast<A*>(val));
-                return true;
-            }
-            else
-                return false;
+            return false;
         }
 
     private:
@@ -240,22 +234,20 @@ class property_wrapper<member_object_ptr, Declaring_Typ, A(C::*), void, Acc_Leve
         void* get_address(instance& object) const
         {
             if (auto ptr = object.try_convert<C>())
-                return &ptr->*m_acc;
+                return as_void_address(&(ptr->*m_acc));
             else
                 return nullptr;
         }
 
         template<class TT>
         TT* get_address(instance& object) const
-        { return static_cast<TT*>(get_address()) ; }
+        { return static_cast<TT*>(get_address(object)) ; }
 
         // let external libraries do unsafe things
         bool set_address(instance& object, void* val) const
         {
-            if (auto ptr = object.try_convert<C>()) {
-                return property_accessor<A>::set_value((ptr->*m_acc), *reinterpret_cast<A*>(val));
-                return true;
-            }
+            if (auto ptr = object.try_convert<C>())
+                return property_accessor<A>::set_value((ptr->*m_acc), *static_cast<A*>(val));
             else
                 return false;
         }
@@ -315,24 +307,19 @@ class property_wrapper<member_object_ptr, Declaring_Typ, A(C::*), void, Acc_Leve
         void* get_address(instance& object) const
         {
             if (auto ptr = object.try_convert<C>())
-                return &ptr->*m_acc;
+                return as_void_address(&(ptr->*m_acc));
             else
                 return nullptr;
         }
 
         template<class TT>
         TT* get_address(instance& object) const
-        { return static_cast<TT*>(get_address()) ; }
+        { return static_cast<TT*>(get_address(object)) ; }
 
         // let external libraries do unsafe things
         bool set_address(instance& object, void* val) const
         {
-            if (auto ptr = object.try_convert<C>()) {
-                return property_accessor<A>::set_value((ptr->*m_acc), *reinterpret_cast<A*>(val));
-                return true;
-            }
-            else
-                return false;
+            return false;
         }
 
     private:
@@ -395,22 +382,20 @@ class property_wrapper<member_object_ptr, Declaring_Typ, A(C::*), void, Acc_Leve
         void* get_address(instance& object) const
         {
             if (auto ptr = object.try_convert<C>())
-                return &ptr->*m_acc;
+                return as_void_address(&(ptr->*m_acc));
             else
                 return nullptr;
         }
 
         template<class TT>
         TT* get_address(instance& object) const
-        { return static_cast<TT*>(get_address()) ; }
+        { return static_cast<TT*>(get_address(object)) ; }
 
         // let external libraries do unsafe things
         bool set_address(instance& object, void* val) const
         {
-            if (auto ptr = object.try_convert<C>()) {
-                return property_accessor<A>::set_value((ptr->*m_acc), *reinterpret_cast<A*>(val));
-                return true;
-            }
+            if (auto ptr = object.try_convert<C>())
+                return property_accessor<A>::set_value((ptr->*m_acc), *static_cast<A*>(val));
             else
                 return false;
         }
@@ -470,24 +455,19 @@ class property_wrapper<member_object_ptr, Declaring_Typ, A(C::*), void, Acc_Leve
         void* get_address(instance& object) const
         {
             if (auto ptr = object.try_convert<C>())
-                return &ptr->*m_acc;
+                return as_void_address(&(ptr->*m_acc));
             else
                 return nullptr;
         }
 
         template<class TT>
         TT* get_address(instance& object) const
-        { return static_cast<TT*>(get_address()) ; }
+        { return static_cast<TT*>(get_address(object)) ; }
 
         // let external libraries do unsafe things
         bool set_address(instance& object, void* val) const
         {
-            if (auto ptr = object.try_convert<C>()) {
-                return property_accessor<A>::set_value((ptr->*m_acc), *reinterpret_cast<A*>(val));
-                return true;
-            }
-            else
-                return false ;
+            return false;
         }
 
     private:
