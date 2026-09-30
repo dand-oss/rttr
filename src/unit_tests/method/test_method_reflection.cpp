@@ -71,7 +71,7 @@ struct base_not_registered
         return true;
     }
 
-    void other_method(int i)
+    void other_method(int )
     {
     }
 };

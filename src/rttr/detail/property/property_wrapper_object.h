@@ -54,7 +54,7 @@ class property_wrapper<object_ptr, Declaring_Typ, C*, void, Acc_Level, return_as
 
         variant get_metadata(const variant& key) const { return metadata_handler<Metadata_Count>::get_metadata(key); }
 
-        bool set_value(instance& object, argument& arg) const
+        bool set_value(instance& , argument& arg) const
         {
             if (arg.is_type<C>())
                 return property_accessor<C>::set_value(*m_accessor, arg.get_value<C>());
@@ -62,7 +62,7 @@ class property_wrapper<object_ptr, Declaring_Typ, C*, void, Acc_Level, return_as
                 return false;
         }
 
-        variant get_value(instance& object) const
+        variant get_value(instance& ) const
         {
             return (variant(*m_accessor));
         }
@@ -74,7 +74,7 @@ class property_wrapper<object_ptr, Declaring_Typ, C*, void, Acc_Level, return_as
         }
 
         // let external libraries do unsafe things
-        void* get_address(instance& object) const
+        void* get_address(instance& ) const
         {
             return as_void_address(m_accessor);
         }
@@ -85,7 +85,7 @@ class property_wrapper<object_ptr, Declaring_Typ, C*, void, Acc_Level, return_as
             return static_cast<TT*>(get_address(object));
         }
 
-        bool set_address(instance& object, void* val) const
+        bool set_address(instance& , void* val) const
         {
             return property_accessor<C>::set_value(*m_accessor, *static_cast<C*>(val));
         }
@@ -119,12 +119,12 @@ class property_wrapper<object_ptr, Declaring_Typ, C*, void, Acc_Level, return_as
 
         variant get_metadata(const variant& key) const { return metadata_handler<Metadata_Count>::get_metadata(key); }
 
-        bool set_value(instance& object, argument& arg) const
+        bool set_value(instance& , argument& ) const
         {
             return false;
         }
 
-        variant get_value(instance& object) const
+        variant get_value(instance& ) const
         {
             return (variant(*m_accessor));
         }
@@ -136,7 +136,7 @@ class property_wrapper<object_ptr, Declaring_Typ, C*, void, Acc_Level, return_as
         }
 
         // let external libraries do unsafe things
-        void* get_address(instance& object) const
+        void* get_address(instance& ) const
         {
             return as_void_address(m_accessor);
         }
@@ -145,7 +145,7 @@ class property_wrapper<object_ptr, Declaring_Typ, C*, void, Acc_Level, return_as
         TT* get_address(instance& object) const
         { return static_cast<TT*>(get_address(object)) ; }
 
-        bool set_address(instance& object, void* val) const
+        bool set_address(instance& , void* ) const
         {
             return false;
         }
@@ -181,7 +181,7 @@ class property_wrapper<object_ptr, Declaring_Typ, C*, void, Acc_Level, return_as
 
         variant get_metadata(const variant& key) const { return metadata_handler<Metadata_Count>::get_metadata(key); }
 
-        bool set_value(instance& object, argument& arg) const
+        bool set_value(instance& , argument& arg) const
         {
             if (arg.is_type<C*>())
             {
@@ -194,7 +194,7 @@ class property_wrapper<object_ptr, Declaring_Typ, C*, void, Acc_Level, return_as
             }
         }
 
-        variant get_value(instance& object) const
+        variant get_value(instance& ) const
         {
             return (variant(m_accessor));
         }
@@ -206,7 +206,7 @@ class property_wrapper<object_ptr, Declaring_Typ, C*, void, Acc_Level, return_as
         }
 
         // let external libraries do unsafe things
-        void* get_address(instance& object) const
+        void* get_address(instance& ) const
         {
             return as_void_address(m_accessor);
         }
@@ -215,7 +215,7 @@ class property_wrapper<object_ptr, Declaring_Typ, C*, void, Acc_Level, return_as
         TT* get_address(instance& object) const
         { return static_cast<TT*>(get_address(object)) ; }
 
-        bool set_address(instance& object, void* val) const
+        bool set_address(instance& , void* val) const
         {
             return property_accessor<C>::set_value(*m_accessor, *static_cast<C*>(val));
         }
@@ -249,12 +249,12 @@ class property_wrapper<object_ptr, Declaring_Typ, C*, void, Acc_Level, return_as
 
         variant get_metadata(const variant& key) const { return metadata_handler<Metadata_Count>::get_metadata(key); }
 
-        bool set_value(instance& object, argument& arg) const
+        bool set_value(instance& , argument& ) const
         {
             return false;
         }
 
-        variant get_value(instance& object) const
+        variant get_value(instance& ) const
         {
             return (variant(m_accessor));
         }
@@ -266,7 +266,7 @@ class property_wrapper<object_ptr, Declaring_Typ, C*, void, Acc_Level, return_as
         }
 
         // let external libraries do unsafe things
-        void* get_address(instance& object) const
+        void* get_address(instance& ) const
         {
             return as_void_address(m_accessor);
         }
@@ -275,7 +275,7 @@ class property_wrapper<object_ptr, Declaring_Typ, C*, void, Acc_Level, return_as
         TT* get_address(instance& object) const
         { return static_cast<TT*>(get_address(object)) ; }
 
-        bool set_address(instance& object, void* val) const
+        bool set_address(instance& , void* ) const
         {
             return false;
         }
@@ -311,7 +311,7 @@ class property_wrapper<object_ptr, Declaring_Typ, C*, void, Acc_Level, get_as_re
 
         variant get_metadata(const variant& key) const { return metadata_handler<Metadata_Count>::get_metadata(key); }
 
-        bool set_value(instance& object, argument& arg) const
+        bool set_value(instance& , argument& arg) const
         {
             if (arg.is_type<std::reference_wrapper<C>>())
                 return property_accessor<C>::set_value(*m_accessor, arg.get_value<std::reference_wrapper<C>>().get());
@@ -319,7 +319,7 @@ class property_wrapper<object_ptr, Declaring_Typ, C*, void, Acc_Level, get_as_re
                 return false;
         }
 
-        variant get_value(instance& object) const
+        variant get_value(instance& ) const
         {
             return (variant(std::ref(*m_accessor)));
         }
@@ -331,7 +331,7 @@ class property_wrapper<object_ptr, Declaring_Typ, C*, void, Acc_Level, get_as_re
         }
 
         // let external libraries do unsafe things
-        void* get_address(instance& object) const
+        void* get_address(instance& ) const
         {
             return as_void_address(m_accessor);
         }
@@ -340,7 +340,7 @@ class property_wrapper<object_ptr, Declaring_Typ, C*, void, Acc_Level, get_as_re
         TT* get_address(instance& object) const
         { return static_cast<TT*>(get_address(object)) ; }
 
-        bool set_address(instance& object, void* val) const
+        bool set_address(instance& , void* val) const
         {
             return property_accessor<C>::set_value(*m_accessor, *static_cast<C*>(val));
         }
@@ -374,12 +374,12 @@ class property_wrapper<object_ptr, Declaring_Typ, C*, void, Acc_Level, get_as_re
 
         variant get_metadata(const variant& key) const { return metadata_handler<Metadata_Count>::get_metadata(key); }
 
-        bool set_value(instance& object, argument& arg) const
+        bool set_value(instance& , argument& ) const
         {
             return false;
         }
 
-        variant get_value(instance& object) const
+        variant get_value(instance& ) const
         {
             return (variant(std::cref(*m_accessor)));
         }
@@ -391,7 +391,7 @@ class property_wrapper<object_ptr, Declaring_Typ, C*, void, Acc_Level, get_as_re
         }
 
         // let external libraries do unsafe things
-        void* get_address(instance& object) const
+        void* get_address(instance& ) const
         {
             return as_void_address(m_accessor);
         }
@@ -400,7 +400,7 @@ class property_wrapper<object_ptr, Declaring_Typ, C*, void, Acc_Level, get_as_re
         TT* get_address(instance& object) const
         { return static_cast<TT*>(get_address(object)) ; }
 
-        bool set_address(instance& object, void* val) const
+        bool set_address(instance& , void* ) const
         {
             return false;
         }

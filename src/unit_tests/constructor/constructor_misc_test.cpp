@@ -34,7 +34,7 @@ struct ctor_misc_test
 {
     ctor_misc_test(){}
 
-    ctor_misc_test(int value){}
+    ctor_misc_test(int ){}
 
     static ctor_misc_test create_object(int value) { return ctor_misc_test(value); }
 

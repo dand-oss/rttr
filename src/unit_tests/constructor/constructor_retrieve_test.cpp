@@ -33,7 +33,7 @@ using namespace rttr;
 struct ctor_test
 {
     ctor_test(){}
-    ctor_test(const ctor_test& other) {}
+    ctor_test(const ctor_test& ) {}
     ctor_test(int, double) {}
 
     static ctor_test create_object() { return ctor_test(); }

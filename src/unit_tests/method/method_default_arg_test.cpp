@@ -34,7 +34,7 @@ using namespace rttr;
 
 struct default_arg_test
 {
-    bool method_with_default(int val_1, const std::string& val_2 = "This is a default", const int* val_3 = nullptr)
+    bool method_with_default(int , const std::string& val_2 = "This is a default", const int* val_3 = nullptr)
     {
         if (val_2 == "This is a default" && val_3 == nullptr)
             return true;
@@ -45,7 +45,7 @@ struct default_arg_test
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static bool global_meth_with_defaults(int val_1, const std::string& val_2 = "This is a default", const int* val_3 = nullptr)
+static bool global_meth_with_defaults(int , const std::string& val_2 = "This is a default", const int* val_3 = nullptr)
 {
     if (val_2 == "This is a default" && val_3 == nullptr)
         return true;

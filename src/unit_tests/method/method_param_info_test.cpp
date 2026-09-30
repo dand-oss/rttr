@@ -37,17 +37,17 @@ struct method_param_info_test
 
     }
 
-    void method_2(bool val_1, int val_2, float val_3)
+    void method_2(bool , int , float )
     {
 
     }
 
-    void method_3(bool val_1, int val_2, float val_3)
+    void method_3(bool , int , float )
     {
 
     }
 
-    bool method_with_default(int val_1, double val_2, bool val_3)
+    bool method_with_default(int , double , bool )
     {
         return false;
     }

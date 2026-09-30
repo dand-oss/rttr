@@ -45,7 +45,7 @@ struct method_misc_test
 
     int func_return(){ return 42; }
 
-    void default_func(std::string value = "text") {}
+    void default_func(std::string  = "text") {}
 
     static void static_func() {}
 };

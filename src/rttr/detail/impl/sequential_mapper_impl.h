@@ -138,7 +138,7 @@ struct sequential_container_mapper_wrapper : iterator_wrapper_base<Tp>
     }
 
     template<typename..., typename C = ConstType, enable_if_t<std::is_const<C>::value, int> = 0>
-    static bool set_size(void* container, std::size_t size)
+    static bool set_size(void* , std::size_t )
     {
         // cannot set size for a const container...
         return false;
@@ -153,7 +153,7 @@ struct sequential_container_mapper_wrapper : iterator_wrapper_base<Tp>
     }
 
     template<typename..., typename C = ConstType, enable_if_t<std::is_const<C>::value, int> = 0>
-    static void clear(void* container)
+    static void clear(void* )
     {
         // cannot clear a const container...
     }
@@ -168,7 +168,7 @@ struct sequential_container_mapper_wrapper : iterator_wrapper_base<Tp>
     }
 
     template<typename..., typename C = ConstType, enable_if_t<std::is_const<C>::value, int> = 0>
-    static void erase(void* container, const iterator_data& itr_pos, iterator_data& itr)
+    static void erase(void* container, const iterator_data& , iterator_data& itr)
     {
         itr_wrapper::create(itr, base_class::end(get_container(container)));
         return;
@@ -191,7 +191,7 @@ struct sequential_container_mapper_wrapper : iterator_wrapper_base<Tp>
     }
 
     template<typename..., typename C = ConstType, enable_if_t<std::is_const<C>::value, int> = 0>
-    static void insert(void* container, argument& value, const iterator_data& itr_pos, iterator_data& itr)
+    static void insert(void* container, argument& , const iterator_data& , iterator_data& itr)
     {
         end(container, itr);
     }
@@ -235,7 +235,7 @@ struct sequential_container_mapper_wrapper : iterator_wrapper_base<Tp>
     template<typename..., typename C = ConstType, typename ReturnType = decltype(base_class::get_value(std::declval<C&>(), 0)),
              enable_if_t<std::is_const<C>::value ||
                          std::is_const<remove_reference_t<ReturnType>>::value, int> = 0>
-    static bool set_value(void* container, std::size_t index, argument& value)
+    static bool set_value(void* container, std::size_t index, argument& )
     {
         base_class::get_value(get_container(container), index);
         return false;
@@ -452,7 +452,7 @@ struct sequential_container_base_static
 
     /////////////////////////////////////////////////////////////////////////////////////
 
-    static void clear(container_t& container)
+    static void clear(container_t& )
     {
     }
 
@@ -466,12 +466,12 @@ struct sequential_container_base_static
         return container.size();
     }
 
-    static bool set_size(container_t& container, std::size_t size)
+    static bool set_size(container_t& , std::size_t )
     {
         return false;
     }
 
-    static itr_t erase(container_t& container, const itr_t& itr)
+    static itr_t erase(container_t& container, const itr_t& )
     {
         return end(container);
     }
@@ -481,7 +481,7 @@ struct sequential_container_base_static
         return end(container);
     }
 
-    static itr_t insert(container_t& container, const value_t& value, const itr_t& itr_pos)
+    static itr_t insert(container_t& container, const value_t& , const itr_t& )
     {
         return end(container);
     }
@@ -556,31 +556,31 @@ struct sequential_container_mapper<T[N]>
 
     /////////////////////////////////////////////////////////////////////////////////////
 
-    static void clear(container_t& container)
+    static void clear(container_t& )
     {
     }
 
-    static bool is_empty(const container_t& container)
+    static bool is_empty(const container_t& )
     {
         return false;
     }
 
-    static std::size_t get_size(const container_t& container)
+    static std::size_t get_size(const container_t& )
     {
         return N;
     }
 
-    static bool set_size(container_t& container, std::size_t size)
+    static bool set_size(container_t& , std::size_t )
     {
         return false;
     }
 
-    static itr_t erase(container_t& container, const itr_t& itr)
+    static itr_t erase(container_t& container, const itr_t& )
     {
         return end(container);
     }
 
-    static itr_t insert(container_t& container, const value_t& value, const itr_t& itr_pos)
+    static itr_t insert(container_t& container, const value_t& , const itr_t& )
     {
         return end(container);
     }
@@ -647,11 +647,11 @@ struct sequential_container_mapper<std::initializer_list<T>>
 
     /////////////////////////////////////////////////////////////////////////////////////
 
-    static void clear(container_t& container)
+    static void clear(container_t& )
     {
     }
 
-    static bool is_empty(const container_t& container)
+    static bool is_empty(const container_t& )
     {
         return false;
     }
@@ -661,17 +661,17 @@ struct sequential_container_mapper<std::initializer_list<T>>
         return container.size();
     }
 
-    static bool set_size(container_t& container, std::size_t size)
+    static bool set_size(container_t& , std::size_t )
     {
         return false;
     }
 
-    static itr_t erase(container_t& container, const itr_t& itr)
+    static itr_t erase(container_t& container, const itr_t& )
     {
         return end(container);
     }
 
-    static itr_t insert(container_t& container, const value_t& value, const itr_t& itr_pos)
+    static itr_t insert(container_t& container, const value_t& , const itr_t& )
     {
         return end(container);
     }

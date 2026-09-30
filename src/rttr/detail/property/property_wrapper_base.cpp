@@ -104,40 +104,40 @@ type property_wrapper_base::get_type() const RTTR_NOEXCEPT
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-variant property_wrapper_base::get_metadata(const variant& key) const
+variant property_wrapper_base::get_metadata(const variant&) const
 {
     return variant();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-bool property_wrapper_base::set_value(instance& object, argument& arg) const
+bool property_wrapper_base::set_value(instance&, argument&) const
 {
     return false;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-variant property_wrapper_base::get_value(instance& object) const
+variant property_wrapper_base::get_value(instance&) const
 {
     return variant();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void property_wrapper_base::visit(visitor& visitor, property prop) const RTTR_NOEXCEPT
+void property_wrapper_base::visit(visitor&, property) const RTTR_NOEXCEPT
 {
 
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void* property_wrapper_base::get_address(instance& object) const
+void* property_wrapper_base::get_address(instance&) const
 {
     return nullptr ;
 }
 
-bool property_wrapper_base::set_address(instance& object, void*) const
+bool property_wrapper_base::set_address(instance&, void*) const
 {
     return false;
 }

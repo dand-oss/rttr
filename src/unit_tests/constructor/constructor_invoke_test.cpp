@@ -37,7 +37,7 @@ struct ctor_invoke_test
         default_ctor_invoked = is_default_ctor;
         func_as_ctor_invoked = is_default_ctor;
     }
-    ctor_invoke_test(const ctor_invoke_test& other) { cpy_ctor_invoked = true; }
+    ctor_invoke_test(const ctor_invoke_test& ) { cpy_ctor_invoked = true; }
     ctor_invoke_test(int param_1, double param_2)
     {
         value_1 = param_1;
@@ -48,7 +48,7 @@ struct ctor_invoke_test
     :   value_1(std::move(other.value_1)), value_2(std::move(other.value_2)), _text(std::move(other._text))
     {}
 
-    ctor_invoke_test(int p1, int p2, int p3, int p4, int p5, int p6, const int* p7){ value_1 = p1; value_2 = p2; }
+    ctor_invoke_test(int p1, int p2, int , int , int , int , const int* ){ value_1 = p1; value_2 = p2; }
 
     static ctor_invoke_test create_object() { return ctor_invoke_test(false); }
 

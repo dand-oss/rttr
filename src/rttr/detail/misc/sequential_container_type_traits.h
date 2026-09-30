@@ -103,7 +103,7 @@ struct get_ranke_type
 template<typename T>
 struct get_ranke_type<T, 0>
 {
-    static ::rttr::type get_type(std::size_t index)
+    static ::rttr::type get_type(std::size_t)
     {
         return type::get<typename sequential_container_ranke_type<T, 0>::type>();
     }

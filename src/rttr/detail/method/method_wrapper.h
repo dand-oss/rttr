@@ -228,7 +228,7 @@ class method_wrapper<F, Declaring_Type, Acc_Level, Policy, default_args<>, param
         method_wrapper(string_view name,
                        F func_acc,
                        std::array<metadata, Metadata_Count> metadata_list,
-                       parameter_infos<> param_infos) RTTR_NOEXCEPT
+                       parameter_infos<> ) RTTR_NOEXCEPT
         :   method_wrapper_base(name, type::get<Declaring_Type>()),
             metadata_handler<Metadata_Count>(std::move(metadata_list)),
             m_func_acc(func_acc)

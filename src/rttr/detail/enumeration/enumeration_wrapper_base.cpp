@@ -97,21 +97,21 @@ array_range<variant> enumeration_wrapper_base::get_values() const RTTR_NOEXCEPT
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-string_view enumeration_wrapper_base::value_to_name(argument& value) const
+string_view enumeration_wrapper_base::value_to_name(argument&) const
 {
     return string_view();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-variant enumeration_wrapper_base::name_to_value(string_view name) const
+variant enumeration_wrapper_base::name_to_value(string_view) const
 {
     return variant();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-variant enumeration_wrapper_base::get_metadata(const variant& key) const
+variant enumeration_wrapper_base::get_metadata(const variant&) const
 {
     return variant();
 }

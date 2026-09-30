@@ -132,7 +132,7 @@ registration::class_<Class_Type, Visitor_List>& registration::class_<Class_Type,
 
 template<typename Class_Type, typename Visitor_List>
 template<typename... Args, typename acc_level, typename Tp>
-registration::bind<detail::ctor, Class_Type, acc_level, Visitor_List, Args...> registration::class_<Class_Type, Visitor_List>::constructor(acc_level level)
+registration::bind<detail::ctor, Class_Type, acc_level, Visitor_List, Args...> registration::class_<Class_Type, Visitor_List>::constructor(acc_level)
 {
     return {create_if_empty(m_reg_exec)};
 }
@@ -141,7 +141,7 @@ registration::bind<detail::ctor, Class_Type, acc_level, Visitor_List, Args...> r
 
 template<typename Class_Type, typename Visitor_List>
 template<typename F, typename acc_level, typename Tp>
-registration::bind<detail::ctor_func, Class_Type, F, acc_level, Visitor_List> registration::class_<Class_Type, Visitor_List>::constructor(F func, acc_level level)
+registration::bind<detail::ctor_func, Class_Type, F, acc_level, Visitor_List> registration::class_<Class_Type, Visitor_List>::constructor(F func, acc_level )
 {
     using namespace detail;
     static_assert(is_functor<F>::value,
@@ -157,7 +157,7 @@ registration::bind<detail::ctor_func, Class_Type, F, acc_level, Visitor_List> re
 
 template<typename Class_Type, typename Visitor_List>
 template<typename A, typename acc_level, typename Tp>
-registration::bind<detail::prop, Class_Type, A, acc_level, Visitor_List> registration::class_<Class_Type, Visitor_List>::property(string_view name, A acc, acc_level level)
+registration::bind<detail::prop, Class_Type, A, acc_level, Visitor_List> registration::class_<Class_Type, Visitor_List>::property(string_view name, A acc, acc_level )
 {
     using namespace detail;
     static_assert(contains<acc_level, access_levels_list>::value, "The given type of 'level' is not a type of 'rttr::access_levels.'");
@@ -171,7 +171,7 @@ registration::bind<detail::prop, Class_Type, A, acc_level, Visitor_List> registr
 
 template<typename Class_Type, typename Visitor_List>
 template<typename A, typename acc_level, typename Tp>
-registration::bind<detail::prop_readonly, Class_Type, A, acc_level, Visitor_List> registration::class_<Class_Type, Visitor_List>::property_readonly(string_view name, A acc, acc_level level)
+registration::bind<detail::prop_readonly, Class_Type, A, acc_level, Visitor_List> registration::class_<Class_Type, Visitor_List>::property_readonly(string_view name, A acc, acc_level )
 {
     using namespace detail;
     static_assert(contains<acc_level, access_levels_list>::value, "The given type of 'level' is not a type of 'rttr::access_levels.'");
@@ -186,7 +186,7 @@ registration::bind<detail::prop_readonly, Class_Type, A, acc_level, Visitor_List
 
 template<typename Class_Type, typename Visitor_List>
 template<typename A1, typename A2, typename acc_level, typename Tp>
-registration::bind<detail::prop, Class_Type, A1, A2, acc_level, Visitor_List> registration::class_<Class_Type, Visitor_List>::property(string_view name, A1 getter, A2 setter, acc_level level)
+registration::bind<detail::prop, Class_Type, A1, A2, acc_level, Visitor_List> registration::class_<Class_Type, Visitor_List>::property(string_view name, A1 getter, A2 setter, acc_level )
 {
     using namespace detail;
     static_assert(contains<acc_level, access_levels_list>::value, "The given type of 'level' is not a type of 'rttr::access_levels.'");
@@ -206,7 +206,7 @@ registration::bind<detail::prop, Class_Type, A1, A2, acc_level, Visitor_List> re
 
 template<typename Class_Type, typename Visitor_List>
 template<typename F, typename acc_level>
-registration::bind<detail::meth, Class_Type, F, acc_level, Visitor_List> registration::class_<Class_Type, Visitor_List>::method(string_view name, F f, acc_level level)
+registration::bind<detail::meth, Class_Type, F, acc_level, Visitor_List> registration::class_<Class_Type, Visitor_List>::method(string_view name, F f, acc_level )
 {
     using namespace detail;
     static_assert(contains<acc_level, access_levels_list>::value, "The given type of 'level' is not a type of 'rttr::access_levels.'");

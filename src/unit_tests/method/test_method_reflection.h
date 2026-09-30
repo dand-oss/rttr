@@ -31,7 +31,7 @@
 #include <rttr/type>
 #include <string>
 
-static void my_global_func(int value)
+static void my_global_func(int )
 {
 }
 
@@ -44,19 +44,19 @@ struct method_test
     void method_4(std::string& text) { text = "Text Changed"; method_4_called = true; } // call method with parameter by reference
     int method_5(double* arg)        { method_5_called = true; *arg = 22.0; return 42; }// method with return value
     const std::string& method_6() const { method_6_called = true; return dummy_text; }  // method which return a value by reference
-    static int method_7(double value){ method_7_called = true; return 23;}              // static method
+    static int method_7(double ){ method_7_called = true; return 23;}              // static method
     virtual void method_8()          { method_8_called = true; }                        // virtual method
     void method_9(int, int, int, int, bool, int, int, int, int, int) { method_9_called = true; } // method with many arguments
-    void method_default_arg(int var = 23) { method_default_arg_called = true; }         // method with default argument
-    void method_raw_array(int (&arr)[10]) {  method_raw_array_called = true;  }
+    void method_default_arg(int  = 23) { method_default_arg_called = true; }         // method with default argument
+    void method_raw_array(int (&)[10]) {  method_raw_array_called = true;  }
 
 
     int method_5(int, double)       { method_5_overloaded_called = true; return 42; }   // overloaded method
     int method_5(int, double) const { return 23; }   // second overloaded method, with const
 
-    void method_4(std::string& text) const { }   // overloaded method, with const
+    void method_4(std::string& ) const { }   // overloaded method, with const
 
-    void method_with_ptr(int* ptr)   { method_with_ptr_called = true; }
+    void method_with_ptr(int* )   { method_with_ptr_called = true; }
 
     void method_fun_ptr_arg(void(*func_ptr)(int)) { method_func_ptr_arg_called = true; m_func_ptr = func_ptr; }
 
@@ -65,7 +65,7 @@ struct method_test
         return (var == 23) ? true : false;
     }
 
-    int func_with_noexcept(int value) const volatile RTTR_NOEXCEPT
+    int func_with_noexcept(int ) const volatile RTTR_NOEXCEPT
     {
         method_with_noexpcet_called = true;
         return 42;
@@ -99,7 +99,7 @@ struct method_test_derived : method_test
 {
 
     virtual void method_8()         { method_8_derived_called = true; } // new implementation from base class
-    void method_11(int value)       { method_11_derived_called = true;} // here we want to check if a base ptr can be converted to the middle
+    void method_11(int )       { method_11_derived_called = true;} // here we want to check if a base ptr can be converted to the middle
 
     bool method_8_derived_called    = false;
     bool method_11_derived_called   = false;

@@ -235,7 +235,7 @@ using count_default_args = count_if<is_def_type, raw_type_t<TArgs>... >;
 template<typename Acc_Args, typename Acc_Type, typename... Args, typename Default_Type = find_default_args_t<get_default_args_t<Args...>, Acc_Args, Acc_Type> >
 static RTTR_INLINE
 enable_if_t< std::is_same<Default_Type, empty_defaults>::value, typename Default_Type::default_types_func>
-get_default_args(Args&&... arg)
+get_default_args(Args&&...)
 {
     return default_args<>(); // no default arguments provided
 }

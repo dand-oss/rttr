@@ -67,7 +67,7 @@ type destructor_wrapper_base::get_destructed_type() const RTTR_NOEXCEPT
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-bool destructor_wrapper_base::invoke(variant& obj) const RTTR_NOEXCEPT
+bool destructor_wrapper_base::invoke(variant&) const RTTR_NOEXCEPT
 {
     return false;
 }

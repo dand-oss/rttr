@@ -37,6 +37,8 @@ public:
     base_test_class()
     {}
 
+    virtual ~base_test_class() = default;
+
     RTTR_ENABLE()
 
 };

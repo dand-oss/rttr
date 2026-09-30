@@ -518,7 +518,7 @@ struct variant_data_policy_array_small : variant_data_base_policy<T, variant_dat
         return reinterpret_cast<const T&>(data);
     }
 
-    static RTTR_INLINE void destroy(T& value)
+    static RTTR_INLINE void destroy(T& )
     {
     }
 
@@ -784,6 +784,7 @@ struct RTTR_API variant_data_policy_void
             case variant_policy_operation::GET_PTR:
             {
                 arg.get_value<void*>() = nullptr;
+                [[fallthrough]];
             }
             case variant_policy_operation::GET_RAW_TYPE:
             {

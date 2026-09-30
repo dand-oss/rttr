@@ -32,11 +32,11 @@ using namespace rttr;
 
 struct ctor_default_arg_test
 {
-    ctor_default_arg_test(int value1, bool value2, const std::string& text)
+    ctor_default_arg_test(int , bool , const std::string& )
     {
     }
 
-    ctor_default_arg_test(int value1)
+    ctor_default_arg_test(int )
     {
     }
 

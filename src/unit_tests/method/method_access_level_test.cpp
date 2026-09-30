@@ -36,7 +36,7 @@ struct method_access_level_test
     void method_2() {}
     void method_3() {}
 
-    void default_method(int value = 23) {}
+    void default_method(int  = 23) {}
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////

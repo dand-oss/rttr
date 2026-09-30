@@ -33,6 +33,7 @@
 #include "rttr/variant.h"
 
 #include <memory>
+#include <cstddef>
 #include <type_traits>
 
 namespace rttr
@@ -40,7 +41,10 @@ namespace rttr
 namespace detail
 {
 
-using iterator_data = std::aligned_storage<sizeof(double)>::type;
+struct iterator_data
+{
+    alignas(double) std::byte data[sizeof(double)];
+};
 
 template<typename T, bool Can_Place = (sizeof(T) <= sizeof(iterator_data)) &&
                                       (std::alignment_of<T>::value <= std::alignment_of<iterator_data>::value)>

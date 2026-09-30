@@ -121,72 +121,72 @@ struct empty_type_converter
 template<typename T>
 struct convert_from
 {
-    static RTTR_INLINE bool to(const T& from, bool& to)
+    static RTTR_INLINE bool to(const T&, bool&)
     {
         return false;
     }
 
-    static RTTR_INLINE bool to(const T& from, char& to)
+    static RTTR_INLINE bool to(const T&, char&)
     {
         return false;
     }
 
-    static RTTR_INLINE bool to(const T& from, int8_t& to)
+    static RTTR_INLINE bool to(const T&, int8_t&)
     {
         return false;
     }
 
-    static RTTR_INLINE bool to(const T& from, int16_t& to)
+    static RTTR_INLINE bool to(const T&, int16_t&)
     {
         return false;
     }
 
-    static RTTR_INLINE bool to(const T& from, int32_t& to)
+    static RTTR_INLINE bool to(const T&, int32_t&)
     {
         return false;
     }
 
-    static RTTR_INLINE bool to(const T& from, int64_t& to)
+    static RTTR_INLINE bool to(const T&, int64_t&)
     {
         return false;
     }
 
-    static RTTR_INLINE bool to(const T& from, uint8_t& to)
+    static RTTR_INLINE bool to(const T&, uint8_t&)
     {
         return false;
     }
 
-    static RTTR_INLINE bool to(const T& from, uint16_t& to)
+    static RTTR_INLINE bool to(const T&, uint16_t&)
     {
         return false;
     }
 
-    static RTTR_INLINE bool to(const T& from, uint32_t& to)
+    static RTTR_INLINE bool to(const T&, uint32_t&)
     {
         return false;
     }
 
-    static RTTR_INLINE bool to(const T& from, uint64_t& to)
+    static RTTR_INLINE bool to(const T&, uint64_t&)
     {
         return false;
     }
 
-    static RTTR_INLINE bool to(const T& from, float& to)
+    static RTTR_INLINE bool to(const T&, float&)
     {
         return false;
     }
 
-    static RTTR_INLINE bool to(const T& from, double& to)
+    static RTTR_INLINE bool to(const T&, double&)
     {
         return false;
     }
 
-    static RTTR_INLINE bool to(const T& from, std::string& to)
+    static RTTR_INLINE bool to(const T&, std::string&)
     {
         return false;
     }
 
-    static RTTR_INLINE bool to_enum(const T& from, argument& to)
+    static RTTR_INLINE bool to_enum(const T&, argument&)
     {
         return false;
     }
@@ -1435,7 +1435,7 @@ struct convert_from_enum
         return (to.empty() == false);
     }
 
-    static RTTR_INLINE bool to_enum(const T& from, argument& to)
+    static RTTR_INLINE bool to_enum(const T& , argument& )
     {
         return false;
     }
