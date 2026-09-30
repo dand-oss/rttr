@@ -114,15 +114,15 @@ class flat_map
             if (find(key) != end())
                 return;
 
-            m_key_list.push_back(key_data_type{std::move(key), has_type()(key)});
-            std::stable_sort(m_key_list.begin(), m_key_list.end(), typename key_data_type::order());
-
-            auto found_key = find_key_const(key);
-            if (found_key != m_key_list.cend())
-            {
-                const auto index = std::distance(m_key_list.cbegin(), found_key);
-                m_value_list.insert(m_value_list.begin() + index, std::move(value));
-            }
+            // Insert after the keys with an equal hash, where appending and re-sorting the whole
+            // list used to put it, without sorting on every insert.
+            const auto hash_value = has_type()(key);
+            const auto found_key = std::upper_bound(m_key_list.begin(), m_key_list.end(),
+                                                    hash_value,
+                                                    typename key_data_type::order());
+            const auto index = std::distance(m_key_list.begin(), found_key);
+            m_key_list.insert(found_key, key_data_type{std::move(key), hash_value});
+            m_value_list.insert(m_value_list.begin() + index, std::move(value));
         }
 
         template<typename T>
