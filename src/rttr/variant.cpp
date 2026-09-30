@@ -305,7 +305,8 @@ bool variant::convert(const type& target_type, variant& target_var) const
         ok = var.convert(target_type);
         target_var = var;
     }
-    else if (source_type.is_pointer() && !target_type.is_pointer())
+    // std::nullptr_t is no pointer type, but a pointer converts to it without being dereferenced
+    else if (source_type.is_pointer() && !target_type.is_pointer() && target_type != type::get<std::nullptr_t>())
     {
         variant var = deref_pointer();
         ok = var.convert(target_type);

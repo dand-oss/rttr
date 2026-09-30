@@ -212,6 +212,9 @@ enable_if_t<std::is_pointer<TT>::value
     variant> deref_pointer(TT& t_ptr)
 {
     using clean_type = remove_cv_t<remove_reference_t<TT>>;
+    // A null pointer has no value to copy.
+    if (t_ptr == nullptr)
+        return variant();
     // COPY CONSTRUCT into variant
     return *static_cast<clean_type>(t_ptr);
     // return *t_ptr;

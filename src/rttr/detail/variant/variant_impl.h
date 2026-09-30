@@ -317,7 +317,10 @@ RTTR_INLINE bool variant::convert(T& value) const
         auto var = extract_wrapped_value();
         return var.convert<T>(value);
     }
-    if (source_type.is_pointer() && !target_type.is_pointer())
+    // std::nullptr_t is no pointer type, but a pointer converts to it without being dereferenced;
+    // a wrapper of the pointer (std::shared_ptr<int> from int*) wraps it without dereferencing
+    if (source_type.is_pointer() && !target_type.is_pointer() && !target_type.is_wrapper() &&
+        !detail::is_nullptr_t<T>::value)
     {
         auto var = deref_pointer();
         return var.convert<T>(value);
