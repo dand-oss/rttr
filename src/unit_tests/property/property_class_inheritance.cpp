@@ -117,6 +117,7 @@ struct derived_registered_prop : base_prop_not_registered
 struct base_class_with_props
 {
     base_class_with_props() : value(100) {}
+    virtual ~base_class_with_props() = default;
     int value;
 
     RTTR_ENABLE()

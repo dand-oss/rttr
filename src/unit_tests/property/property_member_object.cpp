@@ -46,6 +46,8 @@ struct property_member_obj_test
     {
     }
 
+    property_member_obj_test(const property_member_obj_test&) = default;
+
 
 
     int                 _p1;

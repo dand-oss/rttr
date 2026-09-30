@@ -30,6 +30,8 @@
 
 struct type_prop_invoke_test_base
 {
+    virtual ~type_prop_invoke_test_base() = default;
+
     int p1 = 12;
 
     RTTR_ENABLE()

@@ -136,6 +136,7 @@ CLASS_MULTI_INHERIT_5(FinalClass, ClassMultiple6A, ClassMultiple6B, ClassMultipl
 /////////////////////////////////////////////////////////////////////////////////////////
 struct DiamondTop
 {
+    virtual ~DiamondTop() = default;
 
     double foo = 12;
     RTTR_ENABLE()
