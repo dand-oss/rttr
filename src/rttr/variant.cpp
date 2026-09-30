@@ -262,6 +262,14 @@ bool variant::can_convert(const type& target_type) const
     if (target_type == type::get<std::nullptr_t>() && is_nullptr())
         return true;
 
+    // convert() dereferences a pointer for a value target, so the pointee decides
+    if (source_type.is_pointer() && !target_type.is_pointer() && !target_type.is_wrapper() &&
+        target_type != type::get<std::nullptr_t>())
+    {
+        const variant pointer = get_type().is_wrapper() ? extract_wrapped_value() : *this;
+        return pointer.deref_pointer().can_convert(target_type);
+    }
+
     const bool source_is_arithmetic = source_type.is_arithmetic();
     const bool target_is_arithmetic = target_type.is_arithmetic();
     const bool target_is_enumeration = target_type.is_enumeration();

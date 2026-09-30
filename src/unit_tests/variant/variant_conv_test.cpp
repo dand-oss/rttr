@@ -708,13 +708,29 @@ TEST_CASE("variant test - convert from wrapped value", "[variant]")
         CHECK(var.convert(type::get<int*>()) == true);
     }
 
-    SECTION("invalid conversion")
+    SECTION("pointer to value conversion")
     {
         int obj = 42;
         int* obj_ptr = &obj;
         variant var = std::ref(obj_ptr);
 
-        // cannot convert from int* to int automatically
+        // the pointer is dereferenced, so int* converts to the int it points to
+        CHECK(var.can_convert(type::get<int>()) == true);
+
+        bool ok = false;
+        int val = var.convert<int>(&ok);
+        CHECK(ok == true);
+        CHECK(val == 42);
+
+        CHECK(var.convert(type::get<int>()) == true);
+    }
+
+    SECTION("null pointer to value conversion")
+    {
+        int* obj_ptr = nullptr;
+        variant var = std::ref(obj_ptr);
+
+        // a null pointer has no value to convert
         CHECK(var.can_convert(type::get<int>()) == false);
 
         bool ok = false;
