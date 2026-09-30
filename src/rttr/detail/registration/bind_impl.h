@@ -198,9 +198,9 @@ class registration::bind<detail::ctor, Class_Type, acc_level, Visitor_List, Ctor
 
             // at the moment we only supported one policy
             using first_prop_policy = typename std::tuple_element<0, as_std_tuple_t<policy_list>>::type;
-            m_ctor = create_constructor_wrapper<first_prop_policy>(std::move(get_metadata(std::forward<Args>(args)...)),
-                                                                   std::move(get_default_args<type_list<Ctor_Args...>, constructor_type>(std::forward<Args>(args)...)),
-                                                                   std::move(create_param_infos<type_list<Ctor_Args...>, constructor_type>(std::forward<Args>(args)...)));
+            m_ctor = create_constructor_wrapper<first_prop_policy>(get_metadata(std::forward<Args>(args)...),
+                                                                   get_default_args<type_list<Ctor_Args...>, constructor_type>(std::forward<Args>(args)...),
+                                                                   create_param_infos<type_list<Ctor_Args...>, constructor_type>(std::forward<Args>(args)...));
             return registration::class_<Class_Type>(m_reg_exec);
         }
 
@@ -424,7 +424,7 @@ class registration::bind<detail::prop, Class_Type, A, acc_level, Visitor_List> :
         template<typename... Args>
         registration_derived_t<Class_Type> operator()(Args&&... args)
         {
-            m_prop = create_custom_property(m_name, m_acc, std::move(get_metadata(std::forward<Args>(args)...)), std::forward<Args>(args)...);
+            m_prop = create_custom_property(m_name, m_acc, get_metadata(std::forward<Args>(args)...), std::forward<Args>(args)...);
             return registration_derived_t<Class_Type>(m_reg_exec);
         }
 
@@ -519,7 +519,7 @@ class registration::bind<detail::prop, Class_Type, A1, A2, acc_level, Visitor_Li
         {
             m_prop = create_custom_property(m_name,
                                             m_getter, m_setter,
-                                            std::move(get_metadata(std::forward<Args>(args)...)), std::forward<Args>(args)...);
+                                            get_metadata(std::forward<Args>(args)...), std::forward<Args>(args)...);
             return registration_derived_t<Class_Type>(m_reg_exec);
         }
 
@@ -607,7 +607,7 @@ class registration::bind<detail::prop_readonly, Class_Type, A, acc_level, Visito
         registration_derived_t<Class_Type> operator()(Args&&... args)
         {
             m_prop = create_custom_property(m_name, m_acc,
-                                            std::move(get_metadata(std::forward<Args>(args)...)),
+                                            get_metadata(std::forward<Args>(args)...),
                                             std::forward<Args>(args)...);
             return registration_derived_t<Class_Type>(m_reg_exec);
         }
