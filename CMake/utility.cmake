@@ -393,11 +393,7 @@ endfunction()
 function( set_compiler_warnings target)
   if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
     set(WARNINGS "-Werror"
-                 "-Wall"
-                 # GCC 16 reports a false positive from libstdc++'s
-                 # std::function destructor when default_predicate is
-                 # constructed from a lambda.
-                 "-Wno-error=maybe-uninitialized")
+                 "-Wall")
   elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
     set(WARNINGS "-Werror"
                  "-Wall")

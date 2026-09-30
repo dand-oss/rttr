@@ -288,7 +288,7 @@ array_range<property> type::get_properties() const RTTR_NOEXCEPT
     if (!vec.empty())
     {
         return array_range<property>(vec.data(), vec.size(),
-                                     detail::default_predicate<property>([](const property& prop)
+                                     detail::default_predicate<property>(+[](const property& prop)
                                      {
                                          return (prop.get_access_level() == access_levels::public_access);
                                      }) );
@@ -357,7 +357,7 @@ array_range<method> type::get_methods() const RTTR_NOEXCEPT
     if (!vec.empty())
     {
         return array_range<method>(vec.data(), vec.size(),
-                                   detail::default_predicate<method>([](const method& meth)
+                                   detail::default_predicate<method>(+[](const method& meth)
                                    {
                                         return (meth.get_access_level() == access_levels::public_access);
                                    }) );
@@ -564,7 +564,7 @@ array_range<constructor> type::get_constructors() const RTTR_NOEXCEPT
     if (!ctors.empty())
     {
         return array_range<constructor>(ctors.data(), ctors.size(),
-                                        detail::default_predicate<constructor>([](const constructor& ctor)
+                                        detail::default_predicate<constructor>(+[](const constructor& ctor)
                                         {
                                             return (ctor.get_access_level() == access_levels::public_access);
                                         }) );
