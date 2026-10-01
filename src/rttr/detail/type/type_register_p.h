@@ -41,6 +41,7 @@
 #include <string>
 #include <vector>
 #include <mutex>
+#include <unordered_map>
 
 namespace rttr
 {
@@ -185,6 +186,13 @@ private:
     static void update_class_list(const type& t, T item_ptr);
 
     static std::string derive_name(const type& t);
+
+    /*!
+     * Returns derive_name(t), reusing the previous result while the name of the type it is derived
+     * from is unchanged. register_custom_name re-derives every registered type on every call, so
+     * the uncached derivation made static registration quadratic in string allocations.
+     */
+    const std::string& derive_name_cached(const type& t);
     //! Returns true, when the name was already registered
     type_data* register_name_if_neccessary(type_data* info);
     static void register_base_class_info(type_data* info);
@@ -214,7 +222,14 @@ private:
      */
     std::set<registration_manager*>                             m_registration_manager_list;
 
+    struct derived_name
+    {
+        std::string source_name;
+        std::string name;
+    };
+
     flat_map<std::string, type, hash>                           m_custom_name_to_id;
+    std::unordered_map<const type_data*, derived_name>        m_derived_names;
     flat_map<string_view, type>                                 m_orig_name_to_id;
     std::vector<type>                                           m_type_list;
     std::vector<type_data*>                                     m_type_data_storage;

@@ -629,6 +629,7 @@ void type_register_private::unregister_type(type_data* info) RTTR_NOEXCEPT
         remove_base_types_from_derived_classes(obj_t, info->m_class_data.m_derived_types);
         m_orig_name_to_id.erase(info->type_name);
         m_custom_name_to_id.erase(info->name);
+        m_derived_names.erase(info);
     }
 }
 
@@ -713,6 +714,25 @@ std::string type_register_private::derive_name(const type& t)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+const std::string& type_register_private::derive_name_cached(const type& t)
+{
+    // derive_name depends only on the fixed full names and on the current name of this source type
+    const auto source = (t.is_array() && t.get_raw_array_type().is_valid()) ? t.get_raw_array_type()
+                                                                            : t.get_raw_type();
+    const auto source_name = source.get_name();
+    auto found = m_derived_names.find(t.m_type_data);
+    if (found == m_derived_names.end())
+    {
+        found = m_derived_names.emplace(t.m_type_data, derived_name{source_name.to_string(), derive_name(t)}).first;
+    }
+    else if (string_view(found->second.source_name) != source_name)
+    {
+        found->second.name = derive_name(t);
+        found->second.source_name = source_name.to_string();
+    }
+    return found->second.name;
+}
+
 void type_register_private::register_custom_name(type& t, string_view custom_name)
 {
     if (!t.is_valid())
@@ -727,8 +747,9 @@ void type_register_private::register_custom_name(type& t, string_view custom_nam
         if (tt == t || tt.get_raw_type() == tt)
             continue;
 
-        const auto& new_name = derive_name(tt);
-        update_custom_name(new_name, tt);
+        const auto& new_name = derive_name_cached(tt);
+        if (new_name != tt.m_type_data->name)
+            update_custom_name(new_name, tt);
     }
 
     for (auto& tt : tmp_type_list)
