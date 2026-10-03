@@ -26,6 +26,7 @@
 *************************************************************************************/
 
 #include "rttr/detail/registration/registration_executer.h"
+#include "rttr/detail/type/type_register_p.h"
 
 #include <algorithm>
 
@@ -42,8 +43,25 @@ registration_executer::registration_executer()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+namespace
+{
+
+//! Holds the class-list rebuilds of one registration block until all its items are registered.
+struct class_list_batch
+{
+    class_list_batch() { type_register_private::get_instance().begin_class_list_batch(); }
+    ~class_list_batch() { type_register_private::get_instance().end_class_list_batch(); }
+    class_list_batch(const class_list_batch&) = delete;
+    class_list_batch& operator=(const class_list_batch&) = delete;
+};
+
+} // end anonymous namespace
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 registration_executer::~registration_executer()
 {
+    class_list_batch batch;
     for (auto&& item : m_list)
     {
         item.second();

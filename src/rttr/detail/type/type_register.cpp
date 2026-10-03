@@ -631,6 +631,14 @@ void type_register_private::unregister_type(type_data* info) RTTR_NOEXCEPT
         m_custom_name_to_id.erase(info->name);
         m_derived_names.erase(info);
     }
+
+    std::lock_guard<std::mutex> class_list_lock(m_class_list_mutex);
+    if (m_pending_class_list_set.erase(info) > 0)
+    {
+        m_pending_class_lists.erase(std::remove_if(m_pending_class_lists.begin(), m_pending_class_lists.end(),
+                                                   [info](const type& t) { return (t.m_type_data == info); }),
+                                    m_pending_class_lists.end());
+    }
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -917,6 +925,29 @@ method type_register_private::get_type_method(const type& t, string_view name,
 template<typename T>
 void type_register_private::update_class_list(const type& t, T item_ptr)
 {
+    {
+        std::lock_guard<std::mutex> lock(m_class_list_mutex);
+        if (m_class_list_batch_depth > 0)
+        {
+            if (m_pending_class_list_set.insert(t.m_type_data).second)
+                m_pending_class_lists.push_back(t);
+            s_class_lists_pending.store(true, std::memory_order_release);
+            return;
+        }
+    }
+
+    std::vector<type> closure;
+    std::unordered_set<const type_data*> seen;
+    collect_derived_closure(t, closure, seen);
+    for (const auto& item : closure)
+        rebuild_class_list(item, item_ptr);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+template<typename T>
+void type_register_private::rebuild_class_list(const type& t, T item_ptr)
+{
     auto& all_class_items = (t.m_type_data->m_class_data.*item_ptr);
 
     // update type "t" with all items from the base classes
@@ -937,10 +968,66 @@ void type_register_private::update_class_list(const type& t, T item_ptr)
     // insert own class items
     all_class_items.reserve(all_class_items.size() + item_vec.size());
     all_class_items.insert(all_class_items.end(), item_vec.begin(), item_vec.end());
+}
 
-    // update derived types
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void type_register_private::collect_derived_closure(const type& t, std::vector<type>& out,
+                                                    std::unordered_set<const type_data*>& seen)
+{
+    if (!seen.insert(t.m_type_data).second)
+        return;
+
+    out.push_back(t);
     for (const auto& derived_type : t.get_derived_classes())
-        update_class_list<T>(derived_type, item_ptr);
+        collect_derived_closure(derived_type, out, seen);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+std::atomic<bool> type_register_private::s_class_lists_pending{false};
+
+void type_register_private::begin_class_list_batch()
+{
+    std::lock_guard<std::mutex> lock(m_class_list_mutex);
+    ++m_class_list_batch_depth;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void type_register_private::end_class_list_batch()
+{
+    {
+        std::lock_guard<std::mutex> lock(m_class_list_mutex);
+        if (--m_class_list_batch_depth > 0)
+            return;
+    }
+
+    rebuild_pending_class_lists();
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void type_register_private::rebuild_pending_class_lists()
+{
+    std::vector<type> pending;
+    {
+        std::lock_guard<std::mutex> lock(m_class_list_mutex);
+        pending.swap(m_pending_class_lists);
+        m_pending_class_list_set.clear();
+        s_class_lists_pending.store(false, std::memory_order_release);
+    }
+
+    std::vector<type> closure;
+    std::unordered_set<const type_data*> seen;
+    for (const auto& t : pending)
+        collect_derived_closure(t, closure, seen);
+
+    for (const auto& t : closure)
+    {
+        rebuild_class_list(t, &class_data::m_properties);
+        rebuild_class_list(t, &class_data::m_methods);
+    }
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

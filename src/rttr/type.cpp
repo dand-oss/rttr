@@ -234,6 +234,7 @@ bool type::destroy(variant& obj) const RTTR_NOEXCEPT
 property type::get_property(string_view name) const RTTR_NOEXCEPT
 {
     const auto raw_t = get_raw_type();
+    detail::type_register_private::flush_pending_class_lists();
     const auto& vec = raw_t.m_type_data->m_class_data.m_properties;
     // properties are ordered from base to derived
     // use reverse iterator to find the most-derived propertie
@@ -284,6 +285,7 @@ bool type::set_property_value(string_view name, argument arg)
 
 array_range<property> type::get_properties() const RTTR_NOEXCEPT
 {
+    detail::type_register_private::flush_pending_class_lists();
     auto& vec = get_raw_type().m_type_data->m_class_data.m_properties;
     if (!vec.empty())
     {
@@ -302,6 +304,7 @@ array_range<property> type::get_properties() const RTTR_NOEXCEPT
 array_range<property> type::get_properties(filter_items filter) const RTTR_NOEXCEPT
 {
     const auto raw_t = get_raw_type();
+    detail::type_register_private::flush_pending_class_lists();
     auto& vec = raw_t.m_type_data->m_class_data.m_properties;
     if (!vec.empty())
         return array_range<property>(vec.data(), vec.size(), detail::get_filter_predicate<property>(raw_t, filter));
@@ -314,6 +317,7 @@ array_range<property> type::get_properties(filter_items filter) const RTTR_NOEXC
 method type::get_method(string_view name) const RTTR_NOEXCEPT
 {
     const auto raw_t = get_raw_type();
+    detail::type_register_private::flush_pending_class_lists();
     const auto& vec = raw_t.m_type_data->m_class_data.m_methods;
     // methods appear are ordered from base to derived
     // use reverse iterator to find the most-derived method
@@ -334,6 +338,7 @@ method type::get_method(string_view name) const RTTR_NOEXCEPT
 method type::get_method(string_view name, const std::vector<type>& type_list) const RTTR_NOEXCEPT
 {
     const auto raw_t = get_raw_type();
+    detail::type_register_private::flush_pending_class_lists();
     const auto& methvec = raw_t.m_type_data->m_class_data.m_methods;
     for (auto mit = methvec.crbegin() ; mit != methvec.crend() ; ++mit)
     {
@@ -353,6 +358,7 @@ method type::get_method(string_view name, const std::vector<type>& type_list) co
 array_range<method> type::get_methods() const RTTR_NOEXCEPT
 {
     const auto raw_t = get_raw_type();
+    detail::type_register_private::flush_pending_class_lists();
     auto& vec = raw_t.m_type_data->m_class_data.m_methods;
     if (!vec.empty())
     {
@@ -371,6 +377,7 @@ array_range<method> type::get_methods() const RTTR_NOEXCEPT
 array_range<method> type::get_methods(string_view name) const RTTR_NOEXCEPT
 {
     const auto raw_t = get_raw_type();
+    detail::type_register_private::flush_pending_class_lists();
     auto& vec = raw_t.m_type_data->m_class_data.m_methods;
     return vec.empty()
         ? array_range<method>()
@@ -389,6 +396,7 @@ array_range<method> type::get_methods(string_view name) const RTTR_NOEXCEPT
 array_range<method> type::get_methods(filter_items filter) const RTTR_NOEXCEPT
 {
     const auto raw_t = get_raw_type();
+    detail::type_register_private::flush_pending_class_lists();
     auto& vec = raw_t.m_type_data->m_class_data.m_methods;
     if (!vec.empty())
         return array_range<method>(vec.data(), vec.size(), detail::get_filter_predicate<method>(raw_t, filter));
@@ -472,6 +480,7 @@ enumeration type::get_enumeration() const RTTR_NOEXCEPT
 variant type::invoke(string_view name, instance obj, std::vector<argument> args) const
 {
     const auto raw_t = get_raw_type();
+    detail::type_register_private::flush_pending_class_lists();
     const auto& methvec = raw_t.m_type_data->m_class_data.m_methods;
     for (auto mit = methvec.crbegin() ; mit != methvec.crend() ; ++mit)
     {

@@ -39,9 +39,11 @@
 
 #include <memory>
 #include <string>
+#include <atomic>
 #include <vector>
 #include <mutex>
 #include <unordered_map>
+#include <unordered_set>
 
 namespace rttr
 {
@@ -131,6 +133,23 @@ public:
 
     static type_register_private& get_instance();
 
+    /*!
+     * Defers class-list rebuilds until the outermost batch ends. A registration batch
+     * (registration_executer) registers many items per class; rebuilding the declaring class
+     * list and every derived class list per item made static registration quadratic.
+     * A rebuild only reads the own items of the class and its base classes, so rebuilding
+     * each affected class once at the end gives the same lists.
+     */
+    void begin_class_list_batch();
+    void end_class_list_batch();
+
+    //! Rebuilds the class lists an open batch left pending, so readers never see a stale list.
+    static void flush_pending_class_lists()
+    {
+        if (s_class_lists_pending.load(std::memory_order_acquire))
+            get_instance().rebuild_pending_class_lists();
+    }
+
 private:
     type_register_private();
     ~type_register_private();
@@ -182,8 +201,19 @@ private:
     static ::rttr::method get_type_method(const type& t, string_view name,
                                           const std::vector<type>& type_list);
 
+    //! Rebuilds the class lists of \p t and its derived classes, or marks them pending in a batch.
     template<typename T>
-    static void update_class_list(const type& t, T item_ptr);
+    void update_class_list(const type& t, T item_ptr);
+
+    //! Rebuilds the class list of \p t alone: the own items of its base classes, then its own.
+    template<typename T>
+    static void rebuild_class_list(const type& t, T item_ptr);
+
+    //! Appends \p t and all its derived classes to \p out, each once.
+    static void collect_derived_closure(const type& t, std::vector<type>& out,
+                                        std::unordered_set<const type_data*>& seen);
+
+    void rebuild_pending_class_lists();
 
     static std::string derive_name(const type& t);
 
@@ -244,6 +274,12 @@ private:
     std::vector<data_container<const type_comparator_base*>>    m_type_less_than_cmp_list;
 
     std::mutex                                                  m_mutex;
+
+    std::mutex                                                  m_class_list_mutex;
+    int                                                         m_class_list_batch_depth = 0;
+    std::vector<type>                                           m_pending_class_lists;
+    std::unordered_set<const type_data*>                        m_pending_class_list_set;
+    static std::atomic<bool>                                    s_class_lists_pending;
 };
 
 } // end namespace detail
