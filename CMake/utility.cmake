@@ -394,7 +394,9 @@ function( set_compiler_warnings target)
   if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
     set(WARNINGS "-Werror"
                  "-Wall")
-  elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+  # clang-cl takes MSVC options; its -Wall means -Weverything
+  elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang"
+      AND NOT CMAKE_CXX_COMPILER_FRONTEND_VARIANT STREQUAL "MSVC")
     set(WARNINGS "-Werror"
                  "-Wall")
   elseif(MSVC)
